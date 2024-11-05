@@ -1,22 +1,30 @@
 //using System.Diagnostics;
 //using System.Runtime.InteropServices.WindowsRuntime;
+//using System.Collections.Specialized;
+//using System.Threading;
 using UnityEngine;
 
 
 public class DeskNavigation : MonoBehaviour
 {
     Camera cam;
-    public GameObject[] stationObjects = new GameObject[4];
+    public bool inNavigationMode = true;
 
+    public GameObject[] stationObjects = new GameObject[4];
+    
+    // Variables for Camera Position and Rotation
     static int pointNum = 5;
     public Vector3[] viewPos = new Vector3[pointNum]; // Position that the camera will look towards // 0 = overall Desk View
     public Vector3[] cameraPos = new Vector3[pointNum]; // Position that the camera will locate // 0 = overall Desk View
-
-    public bool inNavigationMode = true;
     public int currentIndex = 0;
 
-    public float transitionSpeed = 2.0f;
 
+    // Variables for transitions
+    public float transitionSpeed = 1.0f;
+    float transitionProgress = 0f;
+    Vector3 previousPos = new Vector3(0f, 0f, 0f);
+    Quaternion previousRot = new Quaternion(0, 0, 0, 0);
+    Quaternion nextRot = new Quaternion(0, 0, 0, 0);
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -37,9 +45,15 @@ public class DeskNavigation : MonoBehaviour
         {
             return;
         }
+        if (transitionProgress > 0f)
+        {
+            UpdateStationTransition();
+            return;
+        }
         Control();
     }
 
+    // Method for Keyboard Control
     void Control()
     {
         if(Input.GetKeyDown("a"))
@@ -49,7 +63,7 @@ public class DeskNavigation : MonoBehaviour
                 currentIndex = pointNum;
             }
             currentIndex--;
-            SwitchStation();
+            EnterStationTransition();
         }
         if (Input.GetKeyDown("d"))
         {
@@ -58,19 +72,25 @@ public class DeskNavigation : MonoBehaviour
             {
                 currentIndex = 0;
             }
-            SwitchStation();
+            EnterStationTransition();
         }
     }
 
-    void SwitchStation()
+    // Method for Initating a transition between 2 camera spots 
+    void EnterStationTransition()
     {
-        // Set Camera to new pos
-        cam.transform.position = cameraPos[currentIndex];
+        // Start progress
+        transitionProgress = Time.deltaTime;
 
-        // Set Rotation on camera to look towards new pos
+        // Set Position variables needed for the Lerp
+        previousPos = cam.transform.position;
+
+        // Set Rotation variables needed for the Lerp
         Vector3 relativePos = viewPos[currentIndex] - cameraPos[currentIndex];
-        cam.transform.rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+        nextRot = Quaternion.LookRotation(relativePos, Vector3.up);
+        previousRot = cam.transform.rotation;
 
+        // Highlight station
         for(int i = 0; i < 4; i++)
         {
             stationObjects[i].GetComponent<Renderer>().material.color = new Color(0, 0, 0);
@@ -81,27 +101,48 @@ public class DeskNavigation : MonoBehaviour
         }
     }
 
+    // Method for Lerping the transition between 2 camera spots
+    void UpdateStationTransition()
+    {
+        transitionProgress += Time.deltaTime;
+
+        cam.transform.position = Vector3.Lerp(previousPos, cameraPos[currentIndex], transitionProgress);
+        cam.transform.rotation = Quaternion.Lerp(previousRot, nextRot, transitionProgress);
+
+        if (transitionProgress > 1f)
+        {
+            transitionProgress = 0f;
+        }
+    }
+
     public void EnterDesk()
     {
         // Enable desk control
-        // Disable player movement control
         inNavigationMode = true;
         currentIndex = 0;
-        SwitchStation();
+        EnterStationTransition();
+
+        // Disable player movement control
+
+
+
     }
 
     public void LeaveDesk()
     {
-        inNavigationMode = false;
         // Disable desk control
+        inNavigationMode = false;
+
         // Enable player movement control
+
+
     }
 
   
 
     void OnDrawGizmos()
     {
-        // Draw View Pos 
+        // Draw View Points 
         float radius = 0.1f; 
        
         for(int i = 0; i < pointNum; i++)

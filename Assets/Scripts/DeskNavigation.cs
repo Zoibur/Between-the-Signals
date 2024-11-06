@@ -2,10 +2,12 @@
 //using System.Runtime.InteropServices.WindowsRuntime;
 //using System.Collections.Specialized;
 //using System.Threading;
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 
-public class DeskNavigation : MonoBehaviour
+public class DeskNavigation : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     Camera cam;
     public bool inNavigationMode = true;
@@ -20,11 +22,16 @@ public class DeskNavigation : MonoBehaviour
 
 
     // Variables for transitions
-    public float transitionSpeed = 1.0f;
+    public float transitionSpeed = 2.0f;
     float transitionProgress = 0f;
     Vector3 previousPos = new Vector3(0f, 0f, 0f);
     Quaternion previousRot = new Quaternion(0, 0, 0, 0);
     Quaternion nextRot = new Quaternion(0, 0, 0, 0);
+
+    // Variables for UI
+    public GameObject deskFatherUI;
+    public GameObject deskViewUI;
+    public GameObject stationViewUI;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -56,22 +63,26 @@ public class DeskNavigation : MonoBehaviour
     // Method for Keyboard Control
     void Control()
     {
-        if(Input.GetKeyDown("a"))
+        //Toggle UI
+        if (Input.GetKeyDown("t"))
         {
-            if(currentIndex == 0)
-            {
-                currentIndex = pointNum;
-            }
-            currentIndex--;
-            EnterStationTransition();
+            ToggleUI();
+        }
+
+        //Movement
+        if (Input.GetKeyDown("a"))
+        {
+            GoStationLeft();
         }
         if (Input.GetKeyDown("d"))
         {
-            currentIndex++;
-            if (currentIndex == pointNum)
-            {
-                currentIndex = 0;
-            }
+            GoStationRight();
+        }
+
+        // Return to Overall Desk view
+        if (Input.GetKeyDown("s") || Input.GetKeyDown("space"))
+        {
+            currentIndex = 0;
             EnterStationTransition();
         }
     }
@@ -80,7 +91,7 @@ public class DeskNavigation : MonoBehaviour
     void EnterStationTransition()
     {
         // Start progress
-        transitionProgress = Time.deltaTime;
+        transitionProgress = Time.deltaTime * transitionSpeed;
 
         // Set Position variables needed for the Lerp
         previousPos = cam.transform.position;
@@ -90,21 +101,26 @@ public class DeskNavigation : MonoBehaviour
         nextRot = Quaternion.LookRotation(relativePos, Vector3.up);
         previousRot = cam.transform.rotation;
 
+
+       
         // Highlight station
+        
         for(int i = 0; i < 4; i++)
         {
             stationObjects[i].GetComponent<Renderer>().material.color = new Color(0, 0, 0);
         }
+        /*
         if (currentIndex != 0)
         {
             stationObjects[currentIndex-1].GetComponent<Renderer>().material.color = new Color(0, 255, 0);
         }
+        */
     }
 
     // Method for Lerping the transition between 2 camera spots
     void UpdateStationTransition()
     {
-        transitionProgress += Time.deltaTime;
+        transitionProgress += Time.deltaTime * transitionSpeed;
 
         cam.transform.position = Vector3.Lerp(previousPos, cameraPos[currentIndex], transitionProgress);
         cam.transform.rotation = Quaternion.Lerp(previousRot, nextRot, transitionProgress);
@@ -138,8 +154,75 @@ public class DeskNavigation : MonoBehaviour
 
     }
 
-  
+    // UI
+    public void ToggleUI()
+    {
+        deskFatherUI.SetActive(!deskFatherUI.activeSelf);
+    }
 
+    public void EnterStation(int index)
+    {
+        currentIndex = index;
+        EnterStationTransition();
+        if (index == 0)
+        {
+            deskViewUI.SetActive(true);
+            stationViewUI.SetActive(false);
+        }
+        else
+        {
+            deskViewUI.SetActive(false);
+            stationViewUI.SetActive(true);
+        }
+       
+        
+    }
+
+    public void GoStationRight()
+    {
+        currentIndex++;
+        if (currentIndex == pointNum)
+        {
+            currentIndex = 0;
+        }
+        EnterStationTransition();
+    }
+    public void GoStationLeft()
+    {
+        if (currentIndex == 0)
+        {
+            currentIndex = pointNum;
+        }
+        currentIndex--;
+        EnterStationTransition();
+    }
+
+
+    public void ShowHighlightStation(int index)
+    {
+        stationObjects[index].GetComponent<Renderer>().material.color = new Color(0, 255, 0);
+    }
+    public void HideHighlightStation(int index)
+    {
+        stationObjects[index].GetComponent<Renderer>().material.color = new Color(0, 0, 0);
+    }
+
+    //Detect if the Cursor starts to pass over the GameObject
+    public void OnPointerEnter(PointerEventData pointerEventData)
+    {
+        //Output to console the GameObject's name and the following message
+        Debug.Log("Cursor Entering " + name + " GameObject");
+    }
+
+    //Detect when Cursor leaves the GameObject
+    public void OnPointerExit(PointerEventData pointerEventData)
+    {
+        //Output the following message with the GameObject's name
+        Debug.Log("Cursor Exiting " + name + " GameObject");
+    }
+
+
+    // Gizmo
     void OnDrawGizmos()
     {
         // Draw View Points 

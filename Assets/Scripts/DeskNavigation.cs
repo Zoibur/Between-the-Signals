@@ -69,6 +69,19 @@ public class DeskNavigation : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             ToggleUI();
         }
 
+        // Return to Overall Desk view
+        if (Input.GetKeyDown("s") || Input.GetKeyDown("space"))
+        {
+            currentIndex = 0;
+            EnterStationTransition();
+            EnterDeskViewUI();
+        }
+
+        if (currentIndex == 0)
+        {
+            return;
+        }
+
         //Movement
         if (Input.GetKeyDown("a"))
         {
@@ -77,13 +90,6 @@ public class DeskNavigation : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (Input.GetKeyDown("d"))
         {
             GoStationRight();
-        }
-
-        // Return to Overall Desk view
-        if (Input.GetKeyDown("s") || Input.GetKeyDown("space"))
-        {
-            currentIndex = 0;
-            EnterStationTransition();
         }
     }
 
@@ -103,18 +109,12 @@ public class DeskNavigation : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
 
        
-        // Highlight station
-        
+        // Hide Highlight station
         for(int i = 0; i < 4; i++)
         {
             stationObjects[i].GetComponent<Renderer>().material.color = new Color(0, 0, 0);
         }
-        /*
-        if (currentIndex != 0)
-        {
-            stationObjects[currentIndex-1].GetComponent<Renderer>().material.color = new Color(0, 255, 0);
-        }
-        */
+       
     }
 
     // Method for Lerping the transition between 2 camera spots
@@ -137,7 +137,7 @@ public class DeskNavigation : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         inNavigationMode = true;
         currentIndex = 0;
         EnterStationTransition();
-
+        EnterDeskViewUI();
         // Disable player movement control
 
 
@@ -154,41 +154,40 @@ public class DeskNavigation : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     }
 
-    // UI
+    // UI Methods
     public void ToggleUI()
     {
         deskFatherUI.SetActive(!deskFatherUI.activeSelf);
     }
-
     public void EnterStation(int index)
     {
         currentIndex = index;
         EnterStationTransition();
         if (index == 0)
         {
-            deskViewUI.SetActive(true);
-            stationViewUI.SetActive(false);
+            EnterDeskViewUI();
         }
         else
         {
-            deskViewUI.SetActive(false);
-            stationViewUI.SetActive(true);
-        }
-       
-        
+            EnterStationViewUI();
+        }    
     }
-
     public void GoStationRight()
     {
         currentIndex++;
         if (currentIndex == pointNum)
         {
             currentIndex = 0;
+            EnterDeskViewUI();
         }
         EnterStationTransition();
     }
     public void GoStationLeft()
     {
+        if(currentIndex == 1)
+        {
+            EnterDeskViewUI();
+        }
         if (currentIndex == 0)
         {
             currentIndex = pointNum;
@@ -196,8 +195,6 @@ public class DeskNavigation : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         currentIndex--;
         EnterStationTransition();
     }
-
-
     public void ShowHighlightStation(int index)
     {
         stationObjects[index].GetComponent<Renderer>().material.color = new Color(0, 255, 0);
@@ -221,6 +218,16 @@ public class DeskNavigation : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         Debug.Log("Cursor Exiting " + name + " GameObject");
     }
 
+    void EnterDeskViewUI()
+    {
+        deskViewUI.SetActive(true);
+        stationViewUI.SetActive(false);
+    }
+    void EnterStationViewUI()
+    {
+        deskViewUI.SetActive(false);
+        stationViewUI.SetActive(true);
+    }
 
     // Gizmo
     void OnDrawGizmos()

@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private LayerMask interactableLayerMask;
     private LayerMask stationLayerMask;
     private GameObject focusTarget;
+    private GameObject currentFocusedTarget;
 
     string chairTag = "Chair";
     
@@ -51,6 +52,11 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
+        if (Input.GetMouseButtonDown(1))
+        {
+            InteractInputCheck();
+        }
+
         if (Input.GetKeyDown(KeyCode.E)) {
             if (state == PlayerState.Moving && focusTarget) {
 
@@ -66,9 +72,7 @@ public class PlayerController : MonoBehaviour
             OnPlayerStateChanged?.Invoke(this);
         }
 
-        if (Input.GetMouseButtonDown(1)) {
-            InteractInputCheck();
-        }
+       
     }
     
     void FixedUpdate()
@@ -108,30 +112,44 @@ public class PlayerController : MonoBehaviour
 
     private void InteractInputCheck()
     {
+
         if (state == PlayerState.Focus)
         {
+
+            if (currentFocusedTarget.GetComponent<Station>() != null)
+            {
+                currentFocusedTarget.GetComponent<Station>().Deactivate();
+          
+            }
+
+            currentFocusedTarget = null;
             state = prevState;
             OnPlayerStateChanged?.Invoke(this);
+
+            return;
+
         }
-        else if (focusTarget)
+
+        if (!focusTarget)
         {
-            if(focusTarget.tag == chairTag)
-            {
-                return;
-            }
-            if (focusTarget.GetComponent<Printer>() != null)
-            {
-                focusTarget.GetComponent<Printer>().Activate();
-                return;
-            }
-            else if (focusTarget.GetComponent<FaxMachine>() != null)
-            {
-                focusTarget.GetComponent<FaxMachine>().Activate();
-                return;
-            }
-            prevState = state;
-            state = PlayerState.Focus;
-            OnPlayerStateChanged?.Invoke(this);
+            return;
         }
+        if (focusTarget.tag == chairTag)
+        {
+            return;
+        }
+        currentFocusedTarget = focusTarget;
+        if (focusTarget.GetComponent<Station>() != null)
+        {
+            focusTarget.GetComponent<Station>().Activate();
+            if (!focusTarget.GetComponent<Station>().IsZoomer())
+            {
+                return;
+            }
+        }
+        prevState = state;
+        state = PlayerState.Focus;
+        OnPlayerStateChanged?.Invoke(this);
+
     }
 }

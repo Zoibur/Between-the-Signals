@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FaxMachine : Station
+public class Station : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -13,18 +13,15 @@ public class FaxMachine : Station
     {
         
     }
-
-    public override void Activate()
+    public virtual void Activate()
     {
-        GetComponent<Renderer>().material.color = Color.yellow;
-    }
 
-    public override void Deactivate()
+    }
+    public virtual void Deactivate()
     {
-        GetComponent<Renderer>().material.color = Color.black;
-    }
 
-    public override bool IsZoomer()
+    }
+    public virtual bool IsZoomer()
     {
         return false;
     }

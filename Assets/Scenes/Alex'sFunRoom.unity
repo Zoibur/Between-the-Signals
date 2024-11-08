@@ -196,6 +196,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3806942250702516955, guid: bffce345bffbf81438d98909f273ae9b, type: 3}
+      propertyPath: speed
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3806942250702516955, guid: bffce345bffbf81438d98909f273ae9b, type: 3}
       propertyPath: _camera
       value: 
       objectReference: {fileID: 1244262196}
@@ -330,6 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radio: {fileID: 2109013202}
+  paperPrefab: {fileID: 3632048047439091859, guid: f8147467d064f00438abcefc4bd65c93, type: 3}
 --- !u!114 &129299673 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6129334567645718481, guid: 16a6495c58294cc4d9e5367c6c19305e, type: 3}
@@ -1404,7 +1409,7 @@ MonoBehaviour:
     DefaultMode: 2
   DefaultBlend:
     Style: 1
-    Time: 2
+    Time: 0.2
     CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -1828,9 +1833,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c9846307e007c04a85c2bb0652196b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusFrom: {x: -1, y: 50, z: 0}
+  focusFrom: {x: -0.5, y: 6, z: 0}
   focusAt: {x: 0, y: 0, z: 0}
-  focusFOV: 60
+  focusFOV: 50
 --- !u!4 &1510042247 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cad4dc31b8f58440ac27609737264a7, type: 3}
@@ -2594,9 +2599,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c9846307e007c04a85c2bb0652196b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusFrom: {x: -0.28, y: 0.54, z: -0.99}
+  focusFrom: {x: 0, y: 0, z: -1}
   focusAt: {x: 0, y: 0, z: 0}
-  focusFOV: 100
+  focusFOV: 50
 --- !u!114 &2109013202
 MonoBehaviour:
   m_ObjectHideFlags: 0

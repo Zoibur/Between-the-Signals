@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class Station : MonoBehaviour
 {
+    public enum LerpStage
+    {
+        None,
+        FirstLerp,
+        SecondLerp,
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

@@ -63,13 +63,20 @@ public class PlayerController : MonoBehaviour
                 if (focusTarget.tag == chairTag)
                 {
                     state = PlayerState.AtDesk;
+                    OnPlayerStateChanged?.Invoke(this);
                 }
 
-            } else if (state == PlayerState.AtDesk || state == PlayerState.Focus) {
+            } else if (state == PlayerState.AtDesk) {
                 state = PlayerState.Moving;
+                OnPlayerStateChanged?.Invoke(this);
+
+                if(currentFocusedTarget)
+                {
+                    DeactivateTarget();
+                }
             }
             
-            OnPlayerStateChanged?.Invoke(this);
+            
         }
 
        
@@ -116,13 +123,7 @@ public class PlayerController : MonoBehaviour
         if (state == PlayerState.Focus)
         {
 
-            if (currentFocusedTarget.GetComponent<Station>() != null)
-            {
-                currentFocusedTarget.GetComponent<Station>().Deactivate();
-          
-            }
-
-            currentFocusedTarget = null;
+            DeactivateTarget();
             state = prevState;
             OnPlayerStateChanged?.Invoke(this);
 
@@ -151,5 +152,15 @@ public class PlayerController : MonoBehaviour
         state = PlayerState.Focus;
         OnPlayerStateChanged?.Invoke(this);
 
+    }
+
+    void DeactivateTarget()
+    {
+        if (currentFocusedTarget.GetComponent<Station>() != null)
+        {
+            currentFocusedTarget.GetComponent<Station>().Deactivate();
+
+        }
+        currentFocusedTarget = null;
     }
 }

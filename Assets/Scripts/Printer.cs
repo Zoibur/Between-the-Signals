@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class Printer : Station
 {
+    public AudioSource printingSFX;
+    public AudioSource failPrintSFX;
+
     LerpStage lerpStage = LerpStage.None;
 
     bool active = false;
@@ -83,6 +86,7 @@ public class Printer : Station
             FailPrint();
             return;
         }
+        printingSFX.Stop();
         Debug.Log("Success, Bogos Binted");
         // Instantiate Paper
         holdPaper = Instantiate(paperPrefab);
@@ -105,6 +109,7 @@ public class Printer : Station
     {
         // Fail Feedback
         Debug.Log("Failure, Printer Explodes");
+        failPrintSFX.Play();
         Deactivate();
     }
 
@@ -128,9 +133,14 @@ public class Printer : Station
             return;
         }
         active = true;
-        successPrint = radio.IsValuesCorrect();
+        //successPrint = radio.IsValuesCorrect();
+        successPrint = (radio.IsAmplitudeInRange() && radio.IsFrequencyInRange()) ? true : false;
         timer = (successPrint) ? PRINT_TIME : FAIL_TIME;
         GetComponent<Renderer>().material.color = (successPrint) ? Color.yellow : Color.red;
+        if (successPrint)
+        {
+            printingSFX.Play();
+        }
     }
 
     public override void Deactivate()

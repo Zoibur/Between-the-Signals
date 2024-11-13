@@ -14,20 +14,26 @@ public class PlayerController : MonoBehaviour
     
     public Camera _camera;
     public PlayerState state = PlayerState.Moving;
-    
+    private PlayerState prevState = PlayerState.Moving;
+
     [Header("Movement")]
     public float speed;
     
     private Vector2 rotation = Vector2.zero;
     private Rigidbody rb = null;
     private LayerMask interactableLayerMask;
+    private LayerMask stationLayerMask;
     private GameObject focusTarget;
+    private GameObject currentFocusedTarget;
+
+    string chairTag = "Chair";
     
     public event Action<PlayerController> OnPlayerStateChanged;
 
     void Awake()
     {
         interactableLayerMask = LayerMask.GetMask("Interactable");
+        stationLayerMask = LayerMask.GetMask("Station");
     }
     
     void Start()
@@ -46,31 +52,55 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) {
-            if (state == PlayerState.Moving) {
-                state = PlayerState.AtDesk;
-            } else if (state == PlayerState.AtDesk || state == PlayerState.Focus) {
-                state = PlayerState.Moving;
-            }
-            
-            OnPlayerStateChanged?.Invoke(this);
+        if (Input.GetMouseButtonDown(1))
+        {
+            InteractInputCheck();
         }
 
-        if (state == PlayerState.AtDesk) {
-            if (Input.GetMouseButtonDown(1) && focusTarget) {
-                state = PlayerState.Focus;
+        if (Input.GetKeyDown(KeyCode.E)) {
+            if (state == PlayerState.Moving && focusTarget) {
+
+                if (focusTarget.tag == chairTag)
+                {
+                    state = PlayerState.AtDesk;
+                    OnPlayerStateChanged?.Invoke(this);
+                }
+
+            } else if (state == PlayerState.AtDesk) {
+                state = PlayerState.Moving;
                 OnPlayerStateChanged?.Invoke(this);
+
+                if(currentFocusedTarget)
+                {
+                    DeactivateTarget();
+                }
             }
-        } else if (state == PlayerState.Focus) {
-            if (Input.GetMouseButtonDown(1)) {
-                state = PlayerState.AtDesk;
-                OnPlayerStateChanged?.Invoke(this);
-            }
+            
+            
         }
+
+       
     }
     
     void FixedUpdate()
     {
+        RaycastHit hit;
+        if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit, 5f, interactableLayerMask))
+        {
+            Debug.DrawRay(_camera.transform.position, _camera.transform.forward * hit.distance, Color.green);
+            focusTarget = hit.collider.gameObject;
+        }
+        else if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit, 5f, stationLayerMask) && state == PlayerState.AtDesk)
+        {
+            Debug.DrawRay(_camera.transform.position, _camera.transform.forward * hit.distance, Color.green);
+            focusTarget = hit.collider.gameObject;
+        }
+        else
+        {
+            Debug.DrawRay(_camera.transform.position, _camera.transform.forward * 5f, Color.red);
+            focusTarget = null;
+        }
+
         if (state == PlayerState.Moving) {
             Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
@@ -83,14 +113,54 @@ public class PlayerController : MonoBehaviour
             Vector3 movement = right * input.x + forward * input.y;
             rb.AddForce(movement * speed, ForceMode.Force);
         } else if (state == PlayerState.AtDesk) {
-            RaycastHit hit;
-            if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit, 5f, interactableLayerMask)) {
-                Debug.DrawRay(_camera.transform.position, _camera.transform.forward * hit.distance, Color.green);
-                focusTarget = hit.collider.gameObject;
-            } else {
-                Debug.DrawRay(_camera.transform.position, _camera.transform.forward * 5f, Color.red);
-                focusTarget = null;
+           
+        }
+    }
+
+    private void InteractInputCheck()
+    {
+
+        if (state == PlayerState.Focus)
+        {
+
+            DeactivateTarget();
+            state = prevState;
+            OnPlayerStateChanged?.Invoke(this);
+
+            return;
+
+        }
+
+        if (!focusTarget)
+        {
+            return;
+        }
+        if (focusTarget.tag == chairTag)
+        {
+            return;
+        }
+        currentFocusedTarget = focusTarget;
+        if (focusTarget.GetComponent<Station>() != null)
+        {
+            focusTarget.GetComponent<Station>().Activate();
+            if (!focusTarget.GetComponent<Station>().IsZoomer())
+            {
+                return;
             }
         }
+        prevState = state;
+        state = PlayerState.Focus;
+        OnPlayerStateChanged?.Invoke(this);
+
+    }
+
+    void DeactivateTarget()
+    {
+        if (currentFocusedTarget.GetComponent<Station>() != null)
+        {
+            currentFocusedTarget.GetComponent<Station>().Deactivate();
+
+        }
+        currentFocusedTarget = null;
     }
 }

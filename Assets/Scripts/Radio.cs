@@ -48,6 +48,7 @@ public class Radio : Station
     public LineRenderer targetLineRenderer;
     public int points = 60;
     public Vector3 xLimits = new Vector3(0f, 1f, 0f);
+    public float waveEndX = 0.5f;
     public float movementSpeed = 6;
 
     const float MIN_AMPLITUDE = 0.01f;
@@ -82,7 +83,7 @@ public class Radio : Station
     void Update()
     {
         UpdateRadioWaves(currentAmp, currentFreq, currentLineRenderer);
-        UpdateRadioWaves(targetAmp, targetFreq, targetLineRenderer);
+        //UpdateRadioWaves(targetAmp, targetFreq, targetLineRenderer);
 
         if (!active)
         {
@@ -264,9 +265,9 @@ public class Radio : Station
     {
         // convert amplitude
         amplitude *= MAX_AMPLITUDE / 100f;
-        float xStart = xLimits.x;
+        float xStart = 0f;
         float tau = 2 * Mathf.PI;
-        float xFinish = xLimits.y;
+        float xFinish = waveEndX;
 
         lR.positionCount = points;
         for (int i = 0; i < points; i++)
@@ -280,6 +281,11 @@ public class Radio : Station
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.blue;
+        Vector3 waveEnd = transform.position;
+        waveEnd.x += waveEndX;
+        Gizmos.DrawSphere(waveEnd, 0.05f);
+        /*
         if(mode == KnobMode.None || !knobTarget)
         {
             return;
@@ -289,10 +295,11 @@ public class Radio : Station
         testMousePos = _camera.ScreenToWorldPoint(testMousePos);
         testMousePos.z = knobTarget.position.z;
 
-        Gizmos.color = Color.blue;
+       
         Gizmos.DrawLine(mousePos, testMousePos);
         Gizmos.DrawLine(knobTarget.position, testMousePos);
         Gizmos.DrawLine(knobTarget.position, mousePos);
+        */
     }
 }
 

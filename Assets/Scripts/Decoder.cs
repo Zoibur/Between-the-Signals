@@ -1,19 +1,27 @@
 using UnityEngine;
+using static Radio;
 
 public class Decoder : Station
 {
+    public GameObject morseBook;
+    LayerMask decodeToolLayer;
+    Camera _camera;
+    bool active = false;
 
+    // Paper Lerping
     bool lerping = false;
     float lerpProgress = 0f;
     GameObject holdPaper = null;
     Vector3 originPos;
     Quaternion originRot;
     public Vector3 targetPos;
+
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        decodeToolLayer = LayerMask.GetMask("DecodeTool");
+        _camera = Camera.main;
     }
 
     // Update is called once per frame
@@ -22,6 +30,14 @@ public class Decoder : Station
         if (lerping)
         {
             LerpPaper();
+        }
+        if(!active)
+        {
+            return;
+        }
+        if(Input.GetMouseButtonDown(0))
+        {
+            RaycastToTool();
         }
     }
 
@@ -67,15 +83,49 @@ public class Decoder : Station
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        active = true;
     }
     public override void Deactivate()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        active = false;
     }
     public override bool IsZoomer()
     {
         return true;
+    }
+
+    void RaycastToTool()
+    {
+        
+        Vector3 testMousePos = Input.mousePosition;
+        testMousePos.z = 100f;
+        testMousePos = _camera.ScreenToWorldPoint(testMousePos);
+
+        RaycastHit hit;
+        if (Physics.Raycast(_camera.transform.position, testMousePos - _camera.transform.position, out hit, 5f, decodeToolLayer))
+        {
+            if(hit.transform == morseBook.transform)
+            {
+                morseBook.GetComponent<Renderer>().material.color = Color.red;
+                Debug.DrawRay(_camera.transform.position, testMousePos - _camera.transform.position, Color.green);
+            } 
+            if(!holdPaper)
+            {
+                Debug.DrawRay(_camera.transform.position, testMousePos - _camera.transform.position, Color.red);
+                return;
+            }
+            else if (hit.transform == holdPaper.transform)
+            {
+                holdPaper.GetComponent<Renderer>().material.color = Color.red;
+                Debug.DrawRay(_camera.transform.position, testMousePos - _camera.transform.position, Color.green);
+            }
+            else
+            {
+                Debug.DrawRay(_camera.transform.position, testMousePos - _camera.transform.position, Color.red);
+            }
+        }
     }
 
     private void OnDrawGizmos()

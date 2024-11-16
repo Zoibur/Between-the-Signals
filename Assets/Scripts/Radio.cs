@@ -13,8 +13,11 @@ public class Radio : Station
         FrequencyOn,
     }
 
-    public AudioSource staticNoise;
-    public AudioSource messageSound;
+    public AudioSource noiseSFX;
+    public AudioSource messageSFX;
+    public AudioSource buttonSFX;
+
+    bool isRadioOn = false;
 
     bool active = false;
 
@@ -51,11 +54,11 @@ public class Radio : Station
     public float waveEndX = 0.5f;
     public float movementSpeed = 6;
 
-    const float MIN_AMPLITUDE = 0.01f;
+    //const float MIN_AMPLITUDE = 0.01f;
     const float MAX_AMPLITUDE = 0.03f;
 
-    const float MIN_FREQUENCY = 10f;
-    const float MAX_FREQUENCY = 60f;
+    //const float MIN_FREQUENCY = 10f;
+    //const float MAX_FREQUENCY = 60f;
 
     const float MAX_VALUE = 60f;
     const float MIN_VALUE = 10f;
@@ -82,7 +85,10 @@ public class Radio : Station
     // Update is called once per frame
     void Update()
     {
-        UpdateRadioWaves(currentAmp, currentFreq, currentLineRenderer);
+        if(isRadioOn)
+        {
+            UpdateRadioWaves(currentAmp, currentFreq, currentLineRenderer);
+        }
         //UpdateRadioWaves(targetAmp, targetFreq, targetLineRenderer);
 
         if (!active)
@@ -96,10 +102,10 @@ public class Radio : Station
         }
         if(mode == KnobMode.AmplitudeOn)
         {
-            UpdateKnobValues(ref currentAmp, MIN_AMPLITUDE, MAX_AMPLITUDE);
+            UpdateKnobValues(ref currentAmp);
             UpdateSoundValues();
         } else if (mode == KnobMode.FrequencyOn) {
-            UpdateKnobValues(ref currentFreq, MIN_FREQUENCY, MAX_FREQUENCY);
+            UpdateKnobValues(ref currentFreq);
             UpdateSoundValues();
         }
 
@@ -183,11 +189,28 @@ public class Radio : Station
     }
 
 
+    void ToggleRadio()
+    {
+        buttonSFX.Play();
+      
+        isRadioOn = !isRadioOn;
+        if (isRadioOn) {
+            UpdateSoundValues();
+            currentLineRenderer.enabled = true;
+        }
+        else
+        {
+            noiseSFX.Stop();
+            messageSFX.Stop();
+            currentLineRenderer.enabled = false;
 
+        }
+    }
     void RaycastToKnob()
     {
         if(knobTarget)
         {
+           
             knobTarget.GetComponent<Renderer>().material.color = Color.white;
             knobTarget = null;
             mode = KnobMode.None;
@@ -199,6 +222,11 @@ public class Radio : Station
         RaycastHit hit;
         if (Physics.Raycast(_camera.transform.position, testMousePos - _camera.transform.position, out hit, 5f, knobLayer))
         {
+            if(hit.transform.tag == "Button")
+            {
+                ToggleRadio();
+                return;
+            }
             knobTarget = hit.transform;
             mode = (knobTarget.tag == "AmplitudeKnob") ? KnobMode.AmplitudeOn : KnobMode.FrequencyOn;
             mousePos = hit.point;
@@ -208,24 +236,28 @@ public class Radio : Station
         }
     }
     
-    void UpdateKnobValues(ref float valueToChange, float min, float max)
+    void UpdateKnobValues(ref float valueToChange)
     {
         // Convert to procent
         //valueToChange *= 100f / max;
         if(Input.GetKey("q"))
         {
             valueToChange -= changeAmount * Time.deltaTime;
-           
-            
-             knobTarget.RotateAroundLocal(knobTarget.forward, Time.deltaTime);
-            
+
+            if (valueToChange > MIN_VALUE + 1f)
+            {
+                knobTarget.RotateAroundLocal(knobTarget.forward, -Time.deltaTime);
+            }
             
         }
         else if(Input.GetKey("e"))
         {
             valueToChange += changeAmount * Time.deltaTime;
-            
-                knobTarget.RotateAroundLocal(knobTarget.forward, -Time.deltaTime);
+            if(valueToChange < MAX_VALUE - 1f)
+            {
+
+              knobTarget.RotateAroundLocal(knobTarget.forward, Time.deltaTime);
+            }
             
         }
         // Convert back
@@ -236,26 +268,29 @@ public class Radio : Station
 
     private void UpdateSoundValues()
     {
- 
-        if (!messageSound.isPlaying && IsAmplitudeInRange())
+        if(!isRadioOn)
+        {
+            return;
+        }
+        if (!messageSFX.isPlaying && IsAmplitudeInRange())
         {
             // start message
-            messageSound.Play();
+            messageSFX.Play();
         }
-        else if (messageSound.isPlaying && !IsAmplitudeInRange())
+        else if (messageSFX.isPlaying && !IsAmplitudeInRange())
         {
             // end message
-            messageSound.Stop();
+            messageSFX.Stop();
         }
 
-        if (staticNoise.isPlaying && IsFrequencyInRange() && IsAmplitudeInRange())
+        if (noiseSFX.isPlaying && IsFrequencyInRange() && IsAmplitudeInRange())
         {
             // end noise
-            staticNoise.Stop();
-        } else if (!staticNoise.isPlaying && !IsFrequencyInRange())
+            noiseSFX.Stop();
+        } else if (!noiseSFX.isPlaying && !IsFrequencyInRange())
         {
             // start noise
-            staticNoise.Play();
+            noiseSFX.Play();
         }
        
 

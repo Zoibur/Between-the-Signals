@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class Printer : Station
 {
-    public AudioSource printingSFX;
+    MessageList messageList = new MessageList();
+
+    public AudioSource successPrintSFX;
+    public AudioSource workingSFX;
     public AudioSource failPrintSFX;
 
     LerpStage lerpStage = LerpStage.None;
@@ -55,11 +58,12 @@ public class Printer : Station
     void LerpPaperFirstHalf()
     {
         lerpProgress += Time.deltaTime;
-        holdPaper.transform.position = Vector3.Lerp(transform.position, (-transform.forward * (holdPaper.transform.localScale.x / 2f)) + transform.position, lerpProgress);
+        holdPaper.transform.position = Vector3.Lerp(transform.position, (-transform.forward * (holdPaper.transform.localScale.y / 2f)) + transform.position, lerpProgress);
 
         if(lerpProgress > 1f)
         {
             lerpStage = LerpStage.None;
+            successPrintSFX.Stop();
             //lerping = false;
         }
     }
@@ -67,7 +71,7 @@ public class Printer : Station
     void LerpPaperSecondHalf()
     {
         lerpProgress += Time.deltaTime;
-        holdPaper.transform.position = Vector3.Lerp((-transform.forward * (holdPaper.transform.localScale.x / 2f)) + transform.position, (-transform.forward * (holdPaper.transform.localScale.x)) + transform.position, lerpProgress);
+        holdPaper.transform.position = Vector3.Lerp((-transform.forward * (holdPaper.transform.localScale.y / 2f)) + transform.position, (-transform.forward * (holdPaper.transform.localScale.y)) + transform.position, lerpProgress);
 
         if (lerpProgress > 1f)
         {
@@ -86,13 +90,22 @@ public class Printer : Station
             FailPrint();
             return;
         }
-        printingSFX.Stop();
+        workingSFX.Stop();
+        successPrintSFX.Play();
         Debug.Log("Success, Bogos Binted");
         // Instantiate Paper
         holdPaper = Instantiate(paperPrefab);
         holdPaper.transform.position = transform.position;
         holdPaper.transform.rotation = transform.rotation;
-        holdPaper.transform.Rotate(0f, 90f, 0f);
+        holdPaper.transform.Rotate(90f, 0f, 0f);
+
+        // Paper Texts
+        Paper paperScript = holdPaper.GetComponent<Paper>();
+        string secretMessage = messageList.GetRandomMessage();
+        paperScript.SetTargetMessage(secretMessage);
+        paperScript.SetInputMessage(messageList.GenerateBlank(secretMessage));
+        secretMessage = messageList.GenerateMorseCode(secretMessage);
+        paperScript.SetMorseCodeMessage(secretMessage);
 
         float yChange = holdPaper.transform.localScale.y;
         holdPaper.transform.position = new Vector3(holdPaper.transform.position.x, holdPaper.transform.position.y + yChange, holdPaper.transform.position.z);
@@ -123,6 +136,7 @@ public class Printer : Station
         {
             lerpStage = LerpStage.SecondLerp;
             lerpProgress = 0f;
+            successPrintSFX.Stop();
             /*
             Debug.Log("Took Paper");
             decoder.SetPaper(holdPaper);
@@ -134,12 +148,13 @@ public class Printer : Station
         }
         active = true;
         //successPrint = radio.IsValuesCorrect();
-        successPrint = (radio.IsAmplitudeInRange() && radio.IsFrequencyInRange()) ? true : false;
+        successPrint = (radio.IsAmplitudeInRange() && radio.IsFrequencyInRange());
+        Debug.Log("Amplitude In Range: " + radio.IsAmplitudeInRange() + " | Frequency In Range: " + radio.IsFrequencyInRange());
         timer = (successPrint) ? PRINT_TIME : FAIL_TIME;
         GetComponent<Renderer>().material.color = (successPrint) ? Color.yellow : Color.red;
         if (successPrint)
         {
-            printingSFX.Play();
+            workingSFX.Play();
         }
     }
 

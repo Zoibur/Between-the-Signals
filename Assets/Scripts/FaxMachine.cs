@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class FaxMachine : Station
 {
-   
+    public AudioSource successSFX;
+    public AudioSource workingSFX;
+    public AudioSource failSFX;
 
     GameObject holdPaper;
     LerpStage lerpStage = LerpStage.None;
@@ -42,9 +44,9 @@ public class FaxMachine : Station
     void LerpPaperFirstHalf()
     {
         lerpProgress += Time.deltaTime;
-        holdPaper.transform.position = Vector3.Lerp(originPos, (-transform.forward * (holdPaper.transform.localScale.x)) + transform.position, lerpProgress); // Need to update Lerp Positions
-        Vector3 startRot = new Vector3(0f, 0f, 0f);
-        Vector3 endRot = new Vector3(0f, 180f, 0f);
+        holdPaper.transform.position = Vector3.Lerp(originPos, (-transform.forward * (holdPaper.transform.localScale.y)) + transform.position, lerpProgress); // Need to update Lerp Positions
+        Vector3 startRot = new Vector3(90f, 90f, 0f);
+        Vector3 endRot = new Vector3(90f, 90f, 0f);
         holdPaper.transform.rotation = Quaternion.Lerp(Quaternion.Euler(startRot), Quaternion.Euler(endRot), lerpProgress);
         if (lerpProgress > 1f)
         {
@@ -55,22 +57,38 @@ public class FaxMachine : Station
     void LerpPaperSecondHalf()
     {
         lerpProgress += Time.deltaTime;
-        holdPaper.transform.position = Vector3.Lerp((-transform.forward * (holdPaper.transform.localScale.x)) + transform.position, transform.position, lerpProgress); // Need to update Lerp Positions
+        holdPaper.transform.position = Vector3.Lerp((-transform.forward * (holdPaper.transform.localScale.y)) + transform.position, transform.position, lerpProgress); // Need to update Lerp Positions
         //holdPaper.transform.rotation = Quaternion.Lerp(originRot, originRot, lerpProgress);
         if (lerpProgress > 1f)
         {           
             calculateTimer = CALCULATE_TIME;
             lerpStage = LerpStage.None;
+            workingSFX.Play();
         }
     }
     void CalculatePaperResults()
     {
-        // If values are correct
-        // Green light
+        workingSFX.Stop();
 
-        // Else 
-        // Red light
-        Debug.Log("Destroy Paper");
+        string targetMessage = holdPaper.GetComponent<Paper>().GetTargetMessage();
+        string inputMessage = holdPaper.GetComponent<Paper>().GetInputMessage();
+
+        if(targetMessage == inputMessage)
+        {
+            // If values are correct
+            // Green light
+            Debug.Log("Values Match | Success");
+            successSFX.Play();
+        }
+        else
+        {
+            // Else 
+            // Red light
+            Debug.Log("Values Doesnt Match | Failure");
+            failSFX.Play();
+        }
+        Debug.Log("The Correct Message: " + targetMessage + " | Player Input: " + inputMessage);
+
         Destroy(holdPaper);
         Deactivate();
     }
@@ -83,6 +101,7 @@ public class FaxMachine : Station
         holdPaper = decoder.TakePaper();
         if (!holdPaper)
         {
+            failSFX.Play();
             return;
         }
         originPos = holdPaper.transform.position;

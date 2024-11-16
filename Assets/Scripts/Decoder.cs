@@ -1,12 +1,19 @@
 using UnityEngine;
+using TMPro;
 using static Radio;
+using UnityEngine.UI;
 
 public class Decoder : Station
 {
+    public TMP_InputField inputField;
     public GameObject morseBook;
     LayerMask decodeToolLayer;
     Camera _camera;
     bool active = false;
+    public Vector3 bookOriginPos;
+    public float itemDist = 0.3f;
+    GameObject holdTool;
+    Vector3 toolOriginPos; 
 
     // Paper Lerping
     bool lerping = false;
@@ -15,13 +22,17 @@ public class Decoder : Station
     Vector3 originPos;
     Quaternion originRot;
     public Vector3 targetPos;
+    Quaternion targetRot;
 
-   
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         decodeToolLayer = LayerMask.GetMask("DecodeTool");
         _camera = Camera.main;
+        bookOriginPos = morseBook.transform.position;
+        targetRot = Quaternion.Euler(90f, 90f, 0f);
+  
     }
 
     // Update is called once per frame
@@ -37,6 +48,17 @@ public class Decoder : Station
         }
         if(Input.GetMouseButtonDown(0))
         {
+            if (holdTool)
+            {
+                if(holdTool == holdPaper)
+                {
+                    //holdPaper.GetComponent<Paper>().SetInputMessage(inputField.text.ToString());
+                    inputField.DeactivateInputField();
+                    inputField.gameObject.SetActive(false);
+                }
+                holdTool.transform.position = toolOriginPos;
+                holdTool = null;   
+            }
             RaycastToTool();
         }
     }
@@ -61,7 +83,7 @@ public class Decoder : Station
     {
         lerpProgress += Time.deltaTime;
         holdPaper.transform.position = Vector3.Lerp(originPos, targetPos, lerpProgress);//(lerpStage == LerpStage.FirstLerp) ? Vector3.Lerp(originPos, targetPos, lerpProgress) : Vector3.Lerp(originPos, targetPos, lerpProgress);
-        holdPaper.transform.rotation = Quaternion.Lerp(originRot, transform.rotation, lerpProgress);//(lerpStage == LerpStage.FirstLerp) ? Quaternion.Lerp(originRot, transform.rotation, lerpProgress) : Quaternion.Lerp(originRot, transform.rotation, lerpProgress);
+        holdPaper.transform.rotation = Quaternion.Lerp(originRot, targetRot, lerpProgress);//(lerpStage == LerpStage.FirstLerp) ? Quaternion.Lerp(originRot, transform.rotation, lerpProgress) : Quaternion.Lerp(originRot, transform.rotation, lerpProgress);
         if (lerpProgress > 1f)
         {
             lerping = false;
@@ -90,6 +112,11 @@ public class Decoder : Station
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         active = false;
+        if (holdTool)
+        {
+            holdTool.transform.position = toolOriginPos;
+            holdTool = null;
+        }
     }
     public override bool IsZoomer()
     {
@@ -106,10 +133,23 @@ public class Decoder : Station
         RaycastHit hit;
         if (Physics.Raycast(_camera.transform.position, testMousePos - _camera.transform.position, out hit, 5f, decodeToolLayer))
         {
+            holdTool = hit.transform.gameObject;
+            toolOriginPos = holdTool.transform.position;
+            holdTool.transform.position = _camera.transform.position + (_camera.transform.forward * 0.5f);
+            if(holdTool == holdPaper)
+            {
+                Debug.Log("Tool is Paper");
+                inputField.gameObject.SetActive(true);
+                inputField.ActivateInputField();
+            }
+            /*
             if(hit.transform == morseBook.transform)
             {
                 morseBook.GetComponent<Renderer>().material.color = Color.red;
                 Debug.DrawRay(_camera.transform.position, testMousePos - _camera.transform.position, Color.green);
+                morseBook.transform.position = _camera.transform.position + (_camera.transform.forward * itemDist);//_camera.transform.forward * itemDist;
+                //morseBook.transform.LookAt(_camera.transform.position); 
+                holdingTool = true;
             } 
             if(!holdPaper)
             {
@@ -120,14 +160,34 @@ public class Decoder : Station
             {
                 holdPaper.GetComponent<Renderer>().material.color = Color.red;
                 Debug.DrawRay(_camera.transform.position, testMousePos - _camera.transform.position, Color.green);
+                holdingTool = true;
             }
             else
             {
                 Debug.DrawRay(_camera.transform.position, testMousePos - _camera.transform.position, Color.red);
             }
+            */
         }
     }
-
+    public void UpdateInputText()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            return;
+        }
+        if(Input.GetKeyDown("backspace"))
+        {
+            holdPaper.GetComponent<Paper>().RemoveFromInputMessage();
+            return;
+        }
+        // int indexChange = (Input.GetKeyDown("backspace")) ? -1 : 1;
+        string input = inputField.text;
+        //Debug.Log("Full Input: " + input);
+        holdPaper.GetComponent<Paper>().AddToInputMessage(input[input.Length -1]);
+        //Debug.Log("Paper Function Ended");
+      
+        //Debug.Log("Ending Input Function");
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

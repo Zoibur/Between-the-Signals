@@ -56,6 +56,10 @@ public class Decoder : Station
                     inputField.DeactivateInputField();
                     inputField.gameObject.SetActive(false);
                 }
+                else if (holdTool == morseBook)
+                {
+                    morseBook.GetComponent<Book>().Deactivate();
+                }
                 holdTool.transform.position = toolOriginPos;
                 holdTool = null;   
             }
@@ -136,11 +140,15 @@ public class Decoder : Station
             holdTool = hit.transform.gameObject;
             toolOriginPos = holdTool.transform.position;
             holdTool.transform.position = _camera.transform.position + (_camera.transform.forward * 0.5f);
-            if(holdTool == holdPaper)
+            if (holdTool == holdPaper)
             {
                 Debug.Log("Tool is Paper");
                 inputField.gameObject.SetActive(true);
                 inputField.ActivateInputField();
+            }
+            else if (holdTool == morseBook)
+            {
+                morseBook.GetComponent<Book>().Activate();
             }
             /*
             if(hit.transform == morseBook.transform)

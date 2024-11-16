@@ -132,6 +132,7 @@ public class Radio : Station
     */
     public bool IsAmplitudeInRange()
     {
+        Debug.Log("Amplitude Values | Current Amp: " + currentAmp.ToString() + " | Target Amp: " + targetAmp.ToString());
         if (Mathf.Abs(currentAmp - targetAmp) > errorMargin)
         {
             return false;
@@ -141,6 +142,7 @@ public class Radio : Station
 
     public bool IsFrequencyInRange()
     {
+        Debug.Log("Frequency Values | Current Freq: " + currentFreq.ToString() + " | Target Freq: " + targetFreq.ToString());
         if (Mathf.Abs(currentFreq - targetFreq) > errorMargin)
         {
             return false;

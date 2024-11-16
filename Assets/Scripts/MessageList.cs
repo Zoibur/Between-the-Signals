@@ -25,7 +25,7 @@ public class MessageList
     {
         return char.ToUpper(letter) switch
         {
-            'A' => ".",
+            'A' => ".-",
             'B' => "-...",
             'C' => "-.-.",
             'D' => "-..",
@@ -51,6 +51,16 @@ public class MessageList
             'X' => "-..-",
             'Y' => "-.--",
             'Z' => "--..",
+            '1' => ".----",
+            '2' => "..---",
+            '3' => "...--",
+            '4' => "....-",
+            '5' => ".....",
+            '6' => "-....",
+            '7' => "--...",
+            '8' => "---..",
+            '9' => "----.",
+            '0' => "-----",
             _ => throw new System.Exception("Invalid letter '" + letter + "'")
         };
     }

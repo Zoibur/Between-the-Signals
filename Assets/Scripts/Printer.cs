@@ -99,17 +99,17 @@ public class Printer : Station
         holdPaper.transform.rotation = transform.rotation;
         holdPaper.transform.Rotate(90f, 0f, 0f);
 
-        // Paper Texts
-        Paper paperScript = holdPaper.GetComponent<Paper>();
-        string secretMessage = messageList.GetRandomMessage();
-        paperScript.SetTargetMessage(secretMessage);
-        paperScript.SetInputMessage(messageList.GenerateBlank(secretMessage));
-        secretMessage = messageList.GenerateMorseCode(secretMessage);
-        paperScript.SetMorseCodeMessage(secretMessage);
-
-        float yChange = holdPaper.transform.localScale.y;
-        holdPaper.transform.position = new Vector3(holdPaper.transform.position.x, holdPaper.transform.position.y + yChange, holdPaper.transform.position.z);
-
+        int randNum = Random.Range(0, 2);
+        switch(randNum)
+        {
+            case 0:
+                CreateMorseCodePaper();
+                break;
+            case 1:
+                CreateSecretCodePaper();
+                break;
+        }
+       
         GetComponent<Renderer>().material.color = Color.green;
 
         active = false;
@@ -168,5 +168,34 @@ public class Printer : Station
     public override bool IsZoomer()
     {
         return false;
+    }
+
+    void CreateMorseCodePaper()
+    {
+        // Paper Texts
+        Paper paperScript = holdPaper.GetComponent<Paper>();
+        string secretMessage = messageList.GetRandomMorseCodeMessage();
+        paperScript.SetTargetMessage(secretMessage);
+        paperScript.SetInputMessage(messageList.GenerateBlank(secretMessage));
+        secretMessage = messageList.GenerateMorseCode(secretMessage);
+        paperScript.SetCodeMessage(secretMessage);
+
+        float yChange = holdPaper.transform.localScale.y;
+        holdPaper.transform.position = new Vector3(holdPaper.transform.position.x, holdPaper.transform.position.y + yChange, holdPaper.transform.position.z);
+
+    }
+    void CreateSecretCodePaper()
+    {
+        // Paper Texts
+        Paper paperScript = holdPaper.GetComponent<Paper>();
+        string secretMessage = messageList.GetRandomSecretMessage();
+        paperScript.SetTargetMessage(secretMessage);
+        paperScript.SetInputMessage(messageList.GenerateBlank(secretMessage));
+        secretMessage = messageList.GenerateSecretMessage(secretMessage);
+        paperScript.SetCodeMessage(secretMessage);
+
+        float yChange = holdPaper.transform.localScale.y;
+        holdPaper.transform.position = new Vector3(holdPaper.transform.position.x, holdPaper.transform.position.y + yChange, holdPaper.transform.position.z);
+
     }
 }

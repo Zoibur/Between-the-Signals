@@ -33,7 +33,7 @@ public class Paper : MonoBehaviour
     }
     public string GetTargetMessage() { return targetMessage; }
 
-    public void SetMorseCodeMessage(string newValue)
+    public void SetCodeMessage(string newValue)
     {
         morseCodeMessage = newValue;
         tmpMorse.text = morseCodeMessage;

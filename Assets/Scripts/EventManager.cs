@@ -1,44 +1,51 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class EventManager : MonoBehaviour
 {
-    public static EventManager instance { get; private set; }
-    
-    public float timeBetweenEventsMin;
-    public float timeBetweenEventsMax;
+    [Header("Testing")]
+    public bool TestFireEvent;
+    public EventID TestFireEventID;
 
-    public event Action<string> OnEventRaised;
-    
-    public string[] eventIDs;
-    
-    private float timeSinceLastEvent = 0.0f;
-    private float timeEventShouldHappen = 0.0f;
-    
-    private void ResetEventTimer()
+    private void OnValidate()
     {
-        timeEventShouldHappen = Random.Range(timeBetweenEventsMin, timeBetweenEventsMax);
-        timeSinceLastEvent = 0.0f;
+        if (TestFireEvent) {
+            RaiseEvent(TestFireEventID);
+            TestFireEvent = false;
+        }
     }
+    
+    public enum EventID
+    {
+        DoorOpen,
+        DoorSlam,
+        WindowTap,
+        ToiletFlush,
+    };
 
-    private void Awake()
-    {
-        instance = this;
-    }
+    public float minEventInterval;
+    public float maxEventInterval;
+    
+    public static event Action<EventID> OnEventRaised;
 
     void Start()
     {
-        ResetEventTimer();
+        StartCoroutine(EventLoop());
     }
 
-    void Update()
+    private IEnumerator EventLoop()
     {
-        timeSinceLastEvent += Time.deltaTime;
-        if (timeSinceLastEvent >= timeEventShouldHappen) {
-            OnEventRaised?.Invoke(eventIDs[Random.Range(0, eventIDs.Length)]);
-            ResetEventTimer();
+        while (true) {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(minEventInterval, maxEventInterval));
+            RaiseEvent((EventID)UnityEngine.Random.Range(0, Enum.GetValues(typeof(EventID)).Length));
         }
+    }
+    
+    private void RaiseEvent(EventID eventID)
+    {
+        Debug.Log("Event raised: " + eventID.ToString());
+        OnEventRaised?.Invoke(eventID);
     }
 }

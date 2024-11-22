@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - AmplitudeKnob
+  - Chair
+  - Button
+  - Bed
   layers:
   - Default
   - TransparentFX

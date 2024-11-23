@@ -14,6 +14,8 @@ public class FaxMachine : Station
     const float CALCULATE_TIME = 3f;
     float calculateTimer = 0f;
 
+    public Vector3 faxCenter;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,7 +46,7 @@ public class FaxMachine : Station
     void LerpPaperFirstHalf()
     {
         lerpProgress += Time.deltaTime;
-        holdPaper.transform.position = Vector3.Lerp(originPos, (-transform.forward * (holdPaper.transform.localScale.y)) + transform.position, lerpProgress); // Need to update Lerp Positions
+        holdPaper.transform.position = Vector3.Lerp(originPos, (-transform.up * (holdPaper.transform.localScale.y)) + faxCenter, lerpProgress); // Need to update Lerp Positions
         Vector3 startRot = new Vector3(90f, 90f, 0f);
         Vector3 endRot = new Vector3(90f, 90f, 0f);
         holdPaper.transform.rotation = Quaternion.Lerp(Quaternion.Euler(startRot), Quaternion.Euler(endRot), lerpProgress);
@@ -57,7 +59,7 @@ public class FaxMachine : Station
     void LerpPaperSecondHalf()
     {
         lerpProgress += Time.deltaTime;
-        holdPaper.transform.position = Vector3.Lerp((-transform.forward * (holdPaper.transform.localScale.y)) + transform.position, transform.position, lerpProgress); // Need to update Lerp Positions
+        holdPaper.transform.position = Vector3.Lerp((-transform.up * (holdPaper.transform.localScale.y)) + faxCenter, faxCenter, lerpProgress); // Need to update Lerp Positions
         //holdPaper.transform.rotation = Quaternion.Lerp(originRot, originRot, lerpProgress);
         if (lerpProgress > 1f)
         {           
@@ -107,17 +109,23 @@ public class FaxMachine : Station
         originPos = holdPaper.transform.position;
         lerpProgress = 0f;
         lerpStage = LerpStage.FirstLerp;
-        GetComponent<Renderer>().material.color = Color.yellow;
+        //GetComponent<Renderer>().material.color = Color.yellow;
     }
 
     public override void Deactivate()
     {
       
-        GetComponent<Renderer>().material.color = Color.black;
+        //GetComponent<Renderer>().material.color = Color.black;
     }
 
     public override bool IsZoomer()
     {
         return false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(faxCenter, 0.1f);
     }
 }

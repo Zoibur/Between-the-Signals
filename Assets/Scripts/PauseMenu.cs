@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject menu;
+    public GameObject quitMenu;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -47,6 +48,21 @@ public class PauseMenu : MonoBehaviour
 
     public void GoToMainMenu()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void OpenQuitMenu()
+    {
+        quitMenu.SetActive(true);
+    }
+    public void CloseQuitMenu()
+    {
+        quitMenu.SetActive(false);
     }
 }

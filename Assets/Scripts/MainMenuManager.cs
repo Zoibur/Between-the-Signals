@@ -37,6 +37,12 @@ public class MainMenuManager : MonoBehaviour
         float halfRange = (95f - 85f) / 2f;
         float rotateValue = 85f + halfRange + Mathf.Sin(Time.timeSinceLevelLoad) * halfRange;
         lampObject.transform.rotation = Quaternion.Euler(rotateValue, 0f, 0f);
+
+        if(Input.GetKeyDown("r"))
+        {
+            PlayerPrefs.SetInt("HighestLevelReached", 0);
+            loadLevelsButton.interactable = false;
+        }
     }
 
     public void ShowLoadLevels()
@@ -58,11 +64,7 @@ public class MainMenuManager : MonoBehaviour
         mainOverlay.SetActive(true);
 
     }
-    public void StartNewSave()
-    {
-        PlayerPrefs.SetInt("CurrentLevel", 1);
-        SceneManager.LoadScene(1);
-    }
+  
     public void QuitGame()
     {
         Application.Quit();

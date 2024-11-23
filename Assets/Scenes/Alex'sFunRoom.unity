@@ -4586,7 +4586,6 @@ MonoBehaviour:
   buttonSFX: {fileID: 1775580798}
   mode: 0
   currentLineRenderer: {fileID: 392862295}
-  targetLineRenderer: {fileID: 1604335624}
   points: 60
   xLimits: {x: 0, y: 1, z: 0}
   waveEndX: 0.4
@@ -7272,7 +7271,6 @@ MonoBehaviour:
   buttonSFX: {fileID: 1775580798}
   mode: 0
   currentLineRenderer: {fileID: 1561734345}
-  targetLineRenderer: {fileID: 2037640373}
   points: 200
   xLimits: {x: 0, y: 1, z: 0}
   waveEndX: 0.5

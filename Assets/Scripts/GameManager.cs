@@ -9,8 +9,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public Station[] stations;
+    
     [SerializeField]
     private int score = 0;
+
+    [SerializeField]
+    private int noise = 0;
 
     private int currentLevel = 1;
 
@@ -31,7 +36,7 @@ public class GameManager : MonoBehaviour
         levelNames[4] = "1957-06-19";
 
         Instance = this;
-        levelTransition.gameObject.SetActive(true);
+        //levelTransition.gameObject.SetActive(true);
         currentLevel = PlayerPrefs.GetInt("CurrentLevel");
 
         currentLevel = Mathf.Clamp(currentLevel, 1, levelAmount);
@@ -57,6 +62,20 @@ public class GameManager : MonoBehaviour
         score -= amount;
     }
 
+    public bool IsNoiseAboveThreshold()
+    {
+        int noise = 0;
+        if (stations != null) {
+            for (int i = 0; i < stations.Length; i++) {
+                if (stations[i].IsMakingNoise()) {
+                    noise++;
+                }
+            }
+        }
+
+        return noise >= 2;
+    }
+    
     public IEnumerator LoadNextDay()
     {
         levelTransition.SetTrigger("Start");

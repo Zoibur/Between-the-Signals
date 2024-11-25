@@ -35,6 +35,11 @@ public class HallwayGuy : MonoBehaviour
         private float progress;
 
         private Coroutine footstepCoroutine;
+
+        public Patrolling(float progress = 0.0f)
+        {
+            this.progress = progress;
+        }
         
         private IEnumerator FootstepLoop(HallwayGuy self)
         {
@@ -46,7 +51,6 @@ public class HallwayGuy : MonoBehaviour
         
         public void OnEnter(HallwayGuy self)
         {
-            progress = 0.0f;
             footstepCoroutine = self.StartCoroutine(FootstepLoop(self));
         }
 
@@ -57,6 +61,10 @@ public class HallwayGuy : MonoBehaviour
 
             if (progress >= 1.0f) {
                 self.ChangeState(new Idle());
+            }
+
+            if (GameManager.Instance.IsNoiseAboveThreshold()) {
+                self.ChangeState(new Alert(progress));
             }
         }
 
@@ -71,6 +79,7 @@ public class HallwayGuy : MonoBehaviour
         public string ID => "Alert";
 
         public const float Speed = 1.5f;
+        private float patrolProgress;
         private float progress;
         
         private Vector3 startPosition;
@@ -82,6 +91,11 @@ public class HallwayGuy : MonoBehaviour
                 self.audioSource.Play();
             }
         }
+
+        public Alert(float patrolProgress)
+        {
+            this.patrolProgress = patrolProgress;
+        }
         
         public void OnEnter(HallwayGuy self)
         {
@@ -92,11 +106,11 @@ public class HallwayGuy : MonoBehaviour
 
         public void OnUpdate(HallwayGuy self)
         {
-            progress += Time.deltaTime * (self.patrolSpeed / Vector3.Distance(self.patrolStart, self.patrolEnd));
-            self.transform.position = Vector3.Lerp(startPosition, self.patrolEnd, progress);
+            progress += Time.deltaTime * (self.patrolSpeed / Vector3.Distance(startPosition, self.outsideDoorPosition));
+            self.transform.position = Vector3.Lerp(startPosition, self.outsideDoorPosition, progress);
 
             if (progress >= 1.0f) {
-                self.ChangeState(new Idle());
+                self.ChangeState(new Patrolling(patrolProgress));
             }
         }
 

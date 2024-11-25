@@ -32,4 +32,9 @@ public class Station : MonoBehaviour
     {
         return false;
     }
+
+    public virtual bool IsMakingNoise()
+    {
+        return false;
+    }
 }

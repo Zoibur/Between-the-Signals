@@ -174,6 +174,11 @@ public class Radio : Station
         return true;
     }
 
+    public override bool IsMakingNoise()
+    {
+        return isRadioOn;
+    }
+
     public void NewRadioValues()
     {
         //targetAmp = Random.Range(MIN_AMPLITUDE, MAX_AMPLITUDE);

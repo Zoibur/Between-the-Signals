@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 1814215306}
+  quitMenu: {fileID: 0}
 --- !u!4 &4365259
 Transform:
   m_ObjectHideFlags: 0
@@ -164,6 +165,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &30043566
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 477575234557654013, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 477575234557654013, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477575234557654013, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 29.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 477575234557654013, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 477575234557654013, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477575234557654013, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 477575234557654013, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477575234557654013, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477575234557654013, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 477575234557654013, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1055854549652547308, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: outsideDoorPosition.x
+      value: -2.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 1055854549652547308, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: outsideDoorPosition.z
+      value: 0.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 6219658641056033211, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
+      propertyPath: m_Name
+      value: AI
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 66cba6a57cc986941b699824d53e2065, type: 3}
 --- !u!1001 &44463683
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -384,6 +450,7 @@ MonoBehaviour:
   radio: {fileID: 1445663529}
   decoder: {fileID: 1479176032}
   paperPrefab: {fileID: 3697121536556021106, guid: c39f13810d0c1bc45b957885322465e1, type: 3}
+  printerCenter: {x: 0, y: 0, z: 0}
 --- !u!1 &97606904
 GameObject:
   m_ObjectHideFlags: 0
@@ -2492,6 +2559,8 @@ MonoBehaviour:
   workingSFX: {fileID: 773116974}
   failSFX: {fileID: 1922754752}
   decoder: {fileID: 1479176032}
+  faxCenter: {x: 0, y: 0, z: 0}
+  isMakingNoise: 0
 --- !u!1 &634663745
 GameObject:
   m_ObjectHideFlags: 0
@@ -3433,9 +3502,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f3be307c97635746b972fefa9603c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stations:
+  - {fileID: 1445663529}
+  - {fileID: 97568933}
+  - {fileID: 612463427}
+  - {fileID: 1479176032}
   score: 0
+  noise: 0
   levelTransition: {fileID: 1718328954}
-  transitionTime: 3
   dayText: {fileID: 97606906}
 --- !u!4 &916169728
 Transform:
@@ -4880,7 +4954,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputField: {fileID: 114731122}
   morseBook: {fileID: 773182583}
-  bookOriginPos: {x: 0, y: 0, z: 0}
   itemDist: 10
   targetPos: {x: 1, y: 0.9, z: 1}
 --- !u!95 &1479176033
@@ -7306,3 +7379,4 @@ SceneRoots:
   - {fileID: 916169728}
   - {fileID: 1228904291}
   - {fileID: 4365259}
+  - {fileID: 30043566}

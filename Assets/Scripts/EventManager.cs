@@ -23,6 +23,7 @@ public class EventManager : MonoBehaviour
         DoorSlam,
         WindowTap,
         ToiletFlush,
+        StartPatrol,
     };
 
     public float minEventInterval;

@@ -10,7 +10,7 @@ public class Book : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Book Start");
+       // Debug.Log("Book Start");
        // currentPage = GetComponent<TextMeshPro>();
        SetupPages();
         currentPage.text = pages[currentIndex];

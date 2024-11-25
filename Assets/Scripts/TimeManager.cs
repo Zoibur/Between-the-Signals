@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
+
     public static event Action<int, int> OnClockChange;
     
     public int increment = 15;
@@ -31,6 +32,8 @@ public class TimeManager : MonoBehaviour
             OnClockChange?.Invoke(hour, minute);
         }
     }
+
+  
     
     private void IncrementClock()
     {
@@ -39,6 +42,7 @@ public class TimeManager : MonoBehaviour
             hour++;
             if (hour >= 24) {
                 hour = 0;
+                StartCoroutine(GameManager.Instance.LoadNextDay());
             }
                 
             /* we'll modulo since if we use an increment like 25, we'll need to set the minutes to non-zero;

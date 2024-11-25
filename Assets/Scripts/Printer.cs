@@ -21,6 +21,8 @@ public class Printer : Station
     public GameObject paperPrefab;
     private GameObject holdPaper = null;
 
+    public Vector3 printerCenter;
+
     //bool lerping = false;
     float lerpProgress = 0f;
 
@@ -58,7 +60,7 @@ public class Printer : Station
     void LerpPaperFirstHalf()
     {
         lerpProgress += Time.deltaTime;
-        holdPaper.transform.position = Vector3.Lerp(transform.position, (-transform.forward * (holdPaper.transform.localScale.y / 2f)) + transform.position, lerpProgress);
+        holdPaper.transform.position = Vector3.Lerp(printerCenter, (transform.forward * (holdPaper.transform.localScale.y / 2f)) + printerCenter, lerpProgress);
 
         if(lerpProgress > 1f)
         {
@@ -71,7 +73,7 @@ public class Printer : Station
     void LerpPaperSecondHalf()
     {
         lerpProgress += Time.deltaTime;
-        holdPaper.transform.position = Vector3.Lerp((-transform.forward * (holdPaper.transform.localScale.y / 2f)) + transform.position, (-transform.forward * (holdPaper.transform.localScale.y)) + transform.position, lerpProgress);
+        holdPaper.transform.position = Vector3.Lerp((transform.forward * (holdPaper.transform.localScale.y / 2f)) + printerCenter, (transform.forward * (holdPaper.transform.localScale.y)) + printerCenter, lerpProgress);
 
         if (lerpProgress > 1f)
         {
@@ -110,7 +112,7 @@ public class Printer : Station
                 break;
         }
        
-        GetComponent<Renderer>().material.color = Color.green;
+        //GetComponent<Renderer>().material.color = Color.green;
 
         active = false;
         lerpStage = LerpStage.FirstLerp;
@@ -149,9 +151,10 @@ public class Printer : Station
         active = true;
         //successPrint = radio.IsValuesCorrect();
         successPrint = (radio.IsAmplitudeInRange() && radio.IsFrequencyInRange());
-        Debug.Log("Amplitude In Range: " + radio.IsAmplitudeInRange() + " | Frequency In Range: " + radio.IsFrequencyInRange());
+        //successPrint = true;
+       // Debug.Log("Amplitude In Range: " + radio.IsAmplitudeInRange() + " | Frequency In Range: " + radio.IsFrequencyInRange());
         timer = (successPrint) ? PRINT_TIME : FAIL_TIME;
-        GetComponent<Renderer>().material.color = (successPrint) ? Color.yellow : Color.red;
+        //GetComponent<Renderer>().material.color = (successPrint) ? Color.yellow : Color.red;
         if (successPrint)
         {
             workingSFX.Play();
@@ -161,7 +164,7 @@ public class Printer : Station
     public override void Deactivate()
     {
         //Debug.Log("Deactivate");
-        GetComponent<Renderer>().material.color = Color.black;
+        //GetComponent<Renderer>().material.color = Color.black;
         active = false;
     }
 
@@ -197,5 +200,11 @@ public class Printer : Station
         float yChange = holdPaper.transform.localScale.y;
         holdPaper.transform.position = new Vector3(holdPaper.transform.position.x, holdPaper.transform.position.y + yChange, holdPaper.transform.position.z);
 
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(printerCenter, 0.1f);
     }
 }

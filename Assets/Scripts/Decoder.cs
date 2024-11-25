@@ -10,7 +10,7 @@ public class Decoder : Station
     LayerMask decodeToolLayer;
     Camera _camera;
     bool active = false;
-    public Vector3 bookOriginPos;
+    Vector3 bookOriginPos;
     public float itemDist = 0.3f;
     GameObject holdTool;
     Vector3 toolOriginPos; 

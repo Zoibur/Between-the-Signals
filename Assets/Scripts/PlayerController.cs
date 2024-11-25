@@ -26,8 +26,9 @@ public class PlayerController : MonoBehaviour
     private GameObject focusTarget;
     private GameObject currentFocusedTarget;
 
-    string chairTag = "Chair";
-    
+    const string chairTag = "Chair";
+    const string bedTag = "Bed";
+
     public event Action<PlayerController> OnPlayerStateChanged;
 
     void Awake()
@@ -59,11 +60,23 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E)) {
             if (state == PlayerState.Moving && focusTarget) {
-
+                /*
                 if (focusTarget.tag == chairTag)
                 {
                     state = PlayerState.AtDesk;
                     OnPlayerStateChanged?.Invoke(this);
+                }
+                */
+                switch(focusTarget.tag)
+                {
+                    case chairTag:
+                        state = PlayerState.AtDesk;
+                        OnPlayerStateChanged?.Invoke(this);
+                        break;
+
+                    case bedTag:
+                        StartCoroutine(GameManager.Instance.LoadNextDay());
+                        break;
                 }
 
             } else if (state == PlayerState.AtDesk) {

@@ -48,10 +48,10 @@ public class Radio : Station
     // Wave variables
     [Header("Sinus Wave")]
     public LineRenderer currentLineRenderer;
-    public LineRenderer targetLineRenderer;
+    //public LineRenderer targetLineRenderer;
     public int points = 60;
     public Vector3 xLimits = new Vector3(0f, 1f, 0f);
-    public float waveEndX = 0.5f;
+    public float waveEndX = 0.8f;
     public float movementSpeed = 6;
 
     //const float MIN_AMPLITUDE = 0.01f;
@@ -68,13 +68,16 @@ public class Radio : Station
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        currentLineRenderer.enabled = true;
         xLimits = new Vector3(0f, 0.5f, 0f);
 
         currentLineRenderer.startColor = Color.yellow;
         currentLineRenderer.endColor = Color.yellow;
-
-        targetLineRenderer.startColor = Color.black;
-        targetLineRenderer.endColor = Color.black;
+        float lineThickness = 0.005f;
+        currentLineRenderer.SetWidth(lineThickness, lineThickness);
+        currentLineRenderer.enabled = false;
+        //targetLineRenderer.startColor = Color.black;
+        //targetLineRenderer.endColor = Color.black;
 
         knobLayer = LayerMask.GetMask("Knob");
         _camera = Camera.main;
@@ -132,7 +135,7 @@ public class Radio : Station
     */
     public bool IsAmplitudeInRange()
     {
-        Debug.Log("Amplitude Values | Current Amp: " + currentAmp.ToString() + " | Target Amp: " + targetAmp.ToString());
+       // Debug.Log("Amplitude Values | Current Amp: " + currentAmp.ToString() + " | Target Amp: " + targetAmp.ToString());
         if (Mathf.Abs(currentAmp - targetAmp) > errorMargin)
         {
             return false;
@@ -142,7 +145,7 @@ public class Radio : Station
 
     public bool IsFrequencyInRange()
     {
-        Debug.Log("Frequency Values | Current Freq: " + currentFreq.ToString() + " | Target Freq: " + targetFreq.ToString());
+        //Debug.Log("Frequency Values | Current Freq: " + currentFreq.ToString() + " | Target Freq: " + targetFreq.ToString());
         if (Mathf.Abs(currentFreq - targetFreq) > errorMargin)
         {
             return false;
@@ -233,7 +236,7 @@ public class Radio : Station
             mode = (knobTarget.tag == "AmplitudeKnob") ? KnobMode.AmplitudeOn : KnobMode.FrequencyOn;
             mousePos = hit.point;
             mousePos.z = knobTarget.position.z;
-            knobTarget.GetComponent<Renderer>().material.color = Color.yellow;
+            knobTarget.GetComponent<Renderer>().material.color = Color.red;
             beforeValue = (mode == KnobMode.AmplitudeOn) ? currentAmp : currentFreq;
         }
     }

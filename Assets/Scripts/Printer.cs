@@ -172,6 +172,11 @@ public class Printer : Station
     {
         return false;
     }
+    
+    public override bool IsMakingNoise()
+    {
+        return active;
+    }
 
     void CreateMorseCodePaper()
     {

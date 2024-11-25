@@ -15,7 +15,8 @@ public class FaxMachine : Station
     float calculateTimer = 0f;
 
     public Vector3 faxCenter;
-
+    public bool isMakingNoise = false;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -110,17 +111,23 @@ public class FaxMachine : Station
         lerpProgress = 0f;
         lerpStage = LerpStage.FirstLerp;
         //GetComponent<Renderer>().material.color = Color.yellow;
+        isMakingNoise = true;
     }
 
     public override void Deactivate()
     {
-      
+        isMakingNoise = false;
         //GetComponent<Renderer>().material.color = Color.black;
     }
 
     public override bool IsZoomer()
     {
         return false;
+    }
+    
+    public override bool IsMakingNoise()
+    {
+        return isMakingNoise;
     }
 
     private void OnDrawGizmos()

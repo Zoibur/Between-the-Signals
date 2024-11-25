@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
 
     const string chairTag = "Chair";
     const string bedTag = "Bed";
+    const string newsTag = "Newspaper";
 
     public event Action<PlayerController> OnPlayerStateChanged;
 
@@ -76,6 +77,12 @@ public class PlayerController : MonoBehaviour
 
                     case bedTag:
                         StartCoroutine(GameManager.Instance.LoadNextDay());
+                        break;
+
+                    case newsTag:
+                        focusTarget.GetComponent<NewsPaper>().Inspect();
+                        state = PlayerState.Focus;
+                        OnPlayerStateChanged?.Invoke(this);
                         break;
                 }
 

@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         levelNames[4] = "1957-06-19";
 
         Instance = this;
-        //levelTransition.gameObject.SetActive(true);
+        levelTransition.gameObject.SetActive(true);
         currentLevel = PlayerPrefs.GetInt("CurrentLevel");
 
         currentLevel = Mathf.Clamp(currentLevel, 1, levelAmount);
@@ -84,6 +84,11 @@ public class GameManager : MonoBehaviour
 
         // Setup Day values "player, objects, etc"
         currentLevel++;
+        if (currentLevel == 6)
+        {
+            StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
+            yield break;
+        }
         PlayerPrefs.SetInt("CurrentLevel", currentLevel);
         if (currentLevel > PlayerPrefs.GetInt("HighestLevelReached"))
         {
@@ -92,9 +97,14 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public IEnumerator LoadScene()
+    public IEnumerator LoadScene(int index)
     {
-        //sceneTransition.SetTrigger("Start");
+        levelTransition.SetTrigger("Start");
         yield return new WaitForSeconds(transitionTime);
+
+        PlayerPrefs.SetInt("PlayerScore", PlayerPrefs.GetInt("PlayerScore") + score);
+        SceneManager.LoadScene(index);
     }
+
+    
 }

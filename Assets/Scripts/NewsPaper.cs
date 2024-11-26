@@ -8,6 +8,8 @@ public class NewsPaper : MonoBehaviour
     Vector3 originPos;
     public Vector3 finalPos;
 
+    public Vector3 dayOnePosition;
+
     public GameObject uiPaper;
     GameObject uiHiddenLetter;
     GameObject uiNewspaper;
@@ -31,7 +33,8 @@ public class NewsPaper : MonoBehaviour
         int currentDay = PlayerPrefs.GetInt("CurrentLevel");
         if(currentDay == 1)
         {
-            gameObject.SetActive(false);
+            transform.position = dayOnePosition;
+            //gameObject.SetActive(false);
             return;
         }
         int playerScore = PlayerPrefs.GetInt("PreviousScore");

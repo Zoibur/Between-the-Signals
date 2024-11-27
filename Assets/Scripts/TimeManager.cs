@@ -14,12 +14,23 @@ public class TimeManager : MonoBehaviour
     private int minute = 0;
     
     private float time = 0.0f;
+
+    public int realMinutesPerDay = 5;
+    public int startHour = 8;
+    public int endHour = 23;
     
     private void Start()
     {
-        hour = 8;
+        hour = startHour;
         minute = 0;
         OnClockChange?.Invoke(hour, minute);
+
+       // int minutesPerDay = hoursPerDay * 60;
+        int hoursPerDay = endHour - startHour;
+        int incrementsPerDay = (60 / increment) * hoursPerDay;
+        int incrementsPerRealMin = incrementsPerDay / realMinutesPerDay;
+        secondsPerIncrement = 60 / incrementsPerRealMin;
+
 
         StartCoroutine(ClockLoop());
     }
@@ -40,8 +51,8 @@ public class TimeManager : MonoBehaviour
         minute += increment;
         if (minute >= 60) {
             hour++;
-            if (hour >= 24) {
-                hour = 0;
+            if (hour >= 23) {
+                //hour = 0;
                 StartCoroutine(GameManager.Instance.LoadNextDay());
             }
                 

@@ -20,6 +20,7 @@ public class MainMenuManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        PlayerPrefs.SetInt("PlayerScore", 0);
         highestLevelReached = PlayerPrefs.GetInt("HighestLevelReached");
         if(highestLevelReached == 0 )
         {

@@ -80,6 +80,7 @@ public class FaxMachine : Station
         {
             // If values are correct
             // Green light
+            GameManager.Instance.AddScore(1);
             Debug.Log("Values Match | Success");
             successSFX.Play();
         }

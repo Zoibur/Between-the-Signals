@@ -2,7 +2,9 @@ using UnityEngine;
 using TMPro;
 public class Book : MonoBehaviour
 {
-    bool active = false;
+    
+
+    /*
     public static int pagesAmount = 9;
     string[] pages = new string[pagesAmount];
     public TextMeshPro currentPage;
@@ -15,6 +17,7 @@ public class Book : MonoBehaviour
        SetupPages();
         currentPage.text = pages[currentIndex];
     }
+
     void SetupPages()
     {
         pages[0] = "Morse Code Translations [A-Z]\n\nA = .-\nB = -...";
@@ -42,14 +45,18 @@ public class Book : MonoBehaviour
             NextPage();
         }
     }
+    */
     public void Activate()
     {
-        active = true;
+       transform.GetChild(0).gameObject.SetActive(false);
+       transform.GetChild(1).gameObject.SetActive(true);
     }
     public void Deactivate()
     {
-        active = false;
+        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(1).gameObject.SetActive(false);
     }
+    /*
     public void NextPage()
     {
         if(currentIndex >= pagesAmount-1)
@@ -71,4 +78,5 @@ public class Book : MonoBehaviour
         currentIndex--;
         currentPage.text = pages[currentIndex];
     }
+    */
 }

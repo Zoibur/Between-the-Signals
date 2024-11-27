@@ -36,6 +36,8 @@ public class NewsPaper : MonoBehaviour
     public GameObject noteButton;
     bool zoomed = false;
 
+    bool inspectSkip = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -43,6 +45,7 @@ public class NewsPaper : MonoBehaviour
         if(currentDay == 1)
         {
             transform.position = dayOnePosition;
+            transform.Rotate(new Vector3(0f, 180f, 0f));
             //gameObject.SetActive(false);
             return;
         }
@@ -55,6 +58,8 @@ public class NewsPaper : MonoBehaviour
         string todaysNews = "";
         string todaysMission = "";
 
+        Debug.Log("Day: " + currentDay.ToString());
+        /*
         switch(currentDay)
         {
             case 2:
@@ -72,6 +77,7 @@ public class NewsPaper : MonoBehaviour
                     "Let no soldier find your equipment.";
                 break;
         }
+        */
 
         //uiNewspaper = uiPaper.transform.GetChild(1).gameObject;
         //uiHiddenLetter = uiPaper.transform.GetChild(0).gameObject;
@@ -99,11 +105,18 @@ public class NewsPaper : MonoBehaviour
         {
             LerpSecretNote();
         }
-        if(Input.GetMouseButtonDown(1))
+        if (inspectSkip)
         {
+            inspectSkip = false;
+            return;
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log("Stop Inspecting Paper");
             zoomed = false;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            noteButton.SetActive(false);
         }
         /*
         if (uiActive)
@@ -163,10 +176,13 @@ public class NewsPaper : MonoBehaviour
         // Show button
         //uiPaper.SetActive(true);
         //uiActive = true;
+        inspectSkip = true;
+        Debug.Log("Inspect Paper");
         zoomed = true;
         noteButton.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+      
     }
     public void ShowHiddenLetter()
     {

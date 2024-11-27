@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using static System.TimeZoneInfo;
 
 public class PlayerController : MonoBehaviour
 {
@@ -30,6 +32,8 @@ public class PlayerController : MonoBehaviour
 
     public event Action<PlayerController> OnPlayerStateChanged;
 
+    public GameObject sleepMachine;
+
     void Awake()
     {
         interactableLayerMask = LayerMask.GetMask("Interactable");
@@ -43,6 +47,7 @@ public class PlayerController : MonoBehaviour
         
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        StartCoroutine(GetOutOfBed());
     }
 
     public Interactable GetFocusInteractable()
@@ -50,6 +55,12 @@ public class PlayerController : MonoBehaviour
         return focusTarget.GetComponent<Interactable>();
     }
     
+    IEnumerator GetOutOfBed()
+    {
+        yield return new WaitForSeconds(4f);
+        sleepMachine.SetActive(false);
+    }
+
     void Update()
     {
         if (Input.GetMouseButtonDown(1))
@@ -74,6 +85,7 @@ public class PlayerController : MonoBehaviour
                         break;
 
                     case bedTag:
+                        sleepMachine.SetActive(true);
                         StartCoroutine(GameManager.Instance.LoadNextDay());
                         break;
                         /*
@@ -154,7 +166,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        if (focusTarget.tag == chairTag)
+        if (focusTarget.tag == chairTag || focusTarget.tag == bedTag)
         {
             return;
         }

@@ -202,6 +202,8 @@ public class Radio : Station
     void ToggleRadio()
     {
         buttonSFX.Play();
+
+        //AudioManager.instance.PlaySoundFXClip(buttonSFX, transform, 1f);
       
         isRadioOn = !isRadioOn;
         if (isRadioOn) {

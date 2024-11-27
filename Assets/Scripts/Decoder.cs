@@ -118,6 +118,10 @@ public class Decoder : Station
         active = false;
         if (holdTool)
         {
+            if (holdTool == morseBook)
+            {
+                morseBook.GetComponent<Book>().Deactivate();
+            }
             holdTool.transform.position = toolOriginPos;
             holdTool = null;
         }

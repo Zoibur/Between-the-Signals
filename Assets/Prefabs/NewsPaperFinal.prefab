@@ -230,6 +230,7 @@ MonoBehaviour:
   modelText: {fileID: 4702473402917254404}
   knockDoorAudio: {fileID: 8300000, guid: bfb9e589fd21c664bb810f4eb8f65cfa, type: 3}
   slideAudio: {fileID: 8300000, guid: 3822e47322d262c4f94025eb945f74c1, type: 3}
+  noteButton: {fileID: 0}
 --- !u!114 &7250083847593178807
 MonoBehaviour:
   m_ObjectHideFlags: 0

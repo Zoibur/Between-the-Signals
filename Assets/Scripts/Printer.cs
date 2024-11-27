@@ -7,6 +7,7 @@ public class Printer : Station
     public AudioSource successPrintSFX;
     public AudioSource workingSFX;
     public AudioSource failPrintSFX;
+    public AudioSource buttonSFX;
 
     LerpStage lerpStage = LerpStage.None;
 
@@ -125,6 +126,7 @@ public class Printer : Station
         // Fail Feedback
         Debug.Log("Failure, Printer Explodes");
         failPrintSFX.Play();
+        workingSFX.Stop();
         Deactivate();
     }
 
@@ -134,6 +136,7 @@ public class Printer : Station
         {
             return;
         }
+        buttonSFX.Play();
         if (holdPaper)
         {
             lerpStage = LerpStage.SecondLerp;
@@ -155,10 +158,9 @@ public class Printer : Station
        // Debug.Log("Amplitude In Range: " + radio.IsAmplitudeInRange() + " | Frequency In Range: " + radio.IsFrequencyInRange());
         timer = (successPrint) ? PRINT_TIME : FAIL_TIME;
         //GetComponent<Renderer>().material.color = (successPrint) ? Color.yellow : Color.red;
-        if (successPrint)
-        {
-            workingSFX.Play();
-        }
+      
+           workingSFX.Play();
+        
     }
 
     public override void Deactivate()

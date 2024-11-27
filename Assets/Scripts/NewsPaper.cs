@@ -10,9 +10,9 @@ public class NewsPaper : MonoBehaviour
 
     public Vector3 dayOnePosition;
 
-    public GameObject uiPaper;
-    GameObject uiHiddenLetter;
-    GameObject uiNewspaper;
+    //public GameObject uiPaper;
+    //GameObject uiHiddenLetter;
+    public GameObject secretNote;
 
     public TextMeshPro modelText;
 
@@ -25,7 +25,13 @@ public class NewsPaper : MonoBehaviour
     float timeTillKnock = 8f;
     float timeKnockToSlide = 2f;
 
-    bool uiActive = false;
+    //bool uiActive = false;
+
+    Vector3 secretNotePos1;
+    Vector3 secretNotePos2;
+    Vector3 secretNotePos3;
+    bool halfway = false;
+    bool lerpNote = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -64,12 +70,12 @@ public class NewsPaper : MonoBehaviour
                 break;
         }
 
-        uiNewspaper = uiPaper.transform.GetChild(1).gameObject;
-        uiHiddenLetter = uiPaper.transform.GetChild(0).gameObject;
+        //uiNewspaper = uiPaper.transform.GetChild(1).gameObject;
+        //uiHiddenLetter = uiPaper.transform.GetChild(0).gameObject;
 
         modelText.text = todaysNews;
-        uiNewspaper.GetComponentInChildren<TextMeshProUGUI>().text = todaysNews;
-        uiHiddenLetter.GetComponentInChildren<TextMeshProUGUI>().text = todaysMission;
+        //uiNewspaper.GetComponentInChildren<TextMeshProUGUI>().text = todaysNews;
+        //uiHiddenLetter.GetComponentInChildren<TextMeshProUGUI>().text = todaysMission;
 
         StartCoroutine(KnockDoor());
     }
@@ -79,18 +85,24 @@ public class NewsPaper : MonoBehaviour
     {
         if(isLerping)
         {
-            Lerping();
+            LerpNewspaper();
         }
+        if (lerpNote)
+        {
+            LerpSecretNote();
+        }
+        /*
         if (uiActive)
         {
             if (Input.GetKeyDown("e"))
             {
-                uiPaper.SetActive(false);
+                //uiPaper.SetActive(false);
                 uiActive = false;
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = false;
             }
         }
+        */
     }
     public IEnumerator KnockDoor()
     {
@@ -107,7 +119,7 @@ public class NewsPaper : MonoBehaviour
         AudioManager.instance.PlaySoundFXClip(slideAudio, transform, 1f);
     }
 
-    void Lerping()
+    void LerpNewspaper()
     {
         lerpProgress += Time.deltaTime;
         transform.position = Vector3.Lerp(originPos, finalPos, lerpProgress);
@@ -117,16 +129,39 @@ public class NewsPaper : MonoBehaviour
         }
     }
 
+    void LerpSecretNote()
+    {
+        lerpProgress += Time.deltaTime;
+        secretNote.transform.position = Vector3.Lerp(secretNotePos1, secretNotePos2, lerpProgress);
+        if (!halfway && lerpProgress >= 0.5f)
+        {
+            halfway = true;
+            secretNotePos1 = secretNotePos2;
+            secretNotePos2 = secretNotePos3;
+        }
+        if (lerpProgress >= 1f)
+        {
+            lerpNote = false;
+        }
+    }
     public void Inspect()
     {
-        uiPaper.SetActive(true);
-        uiActive = true;
+        // Show button
+        //uiPaper.SetActive(true);
+        //uiActive = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
     public void ShowHiddenLetter()
     {
-        uiHiddenLetter.transform.SetSiblingIndex(1);
+        lerpNote = true;
+        halfway = false;
+        secretNotePos1 = secretNote.transform.position;
+        secretNotePos2 = secretNotePos1 + (secretNote.transform.up * 0.5f);
+        secretNotePos3 = secretNotePos1 + (secretNote.transform.forward * 0.01f);
+        lerpProgress = 0f;
+        // Lerp paper
+        //uiHiddenLetter.transform.SetSiblingIndex(1);
         Debug.Log("Show Hidden Letter");
     }
 
@@ -135,5 +170,6 @@ public class NewsPaper : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(finalPos, 0.1f);
+        Gizmos.DrawSphere(dayOnePosition, 0.1f);
     }
 }

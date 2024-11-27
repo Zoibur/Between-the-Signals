@@ -78,12 +78,13 @@ public class PlayerController : MonoBehaviour
                     case bedTag:
                         StartCoroutine(GameManager.Instance.LoadNextDay());
                         break;
-
+                        /*
                     case newsTag:
                         focusTarget.GetComponent<NewsPaper>().Inspect();
                         state = PlayerState.Focus;
                         OnPlayerStateChanged?.Invoke(this);
                         break;
+                        */
                 }
 
             } else if (state == PlayerState.AtDesk) {
@@ -158,6 +159,10 @@ public class PlayerController : MonoBehaviour
         if (focusTarget.tag == chairTag)
         {
             return;
+        }
+        if (focusTarget.tag == newsTag)
+        {
+            focusTarget.GetComponent<NewsPaper>().Inspect();
         }
         currentFocusedTarget = focusTarget;
         if (focusTarget.GetComponent<Station>() != null)

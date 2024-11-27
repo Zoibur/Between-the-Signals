@@ -33,6 +33,9 @@ public class NewsPaper : MonoBehaviour
     bool halfway = false;
     bool lerpNote = false;
 
+    public GameObject noteButton;
+    bool zoomed = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -83,13 +86,24 @@ public class NewsPaper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isLerping)
+        if (isLerping)
         {
             LerpNewspaper();
         }
+        if (!zoomed)
+        {
+            return;
+        }
+        
         if (lerpNote)
         {
             LerpSecretNote();
+        }
+        if(Input.GetMouseButtonDown(1))
+        {
+            zoomed = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         /*
         if (uiActive)
@@ -149,17 +163,24 @@ public class NewsPaper : MonoBehaviour
         // Show button
         //uiPaper.SetActive(true);
         //uiActive = true;
+        zoomed = true;
+        noteButton.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
     public void ShowHiddenLetter()
     {
+        if(halfway)
+        {
+            return;
+        }
         lerpNote = true;
         halfway = false;
         secretNotePos1 = secretNote.transform.position;
         secretNotePos2 = secretNotePos1 + (secretNote.transform.up * 0.5f);
-        secretNotePos3 = secretNotePos1 + (secretNote.transform.forward * 0.01f);
+        secretNotePos3 = secretNotePos1 + (secretNote.transform.forward * 0.02f);
         lerpProgress = 0f;
+        noteButton.SetActive(false);
         // Lerp paper
         //uiHiddenLetter.transform.SetSiblingIndex(1);
         Debug.Log("Show Hidden Letter");

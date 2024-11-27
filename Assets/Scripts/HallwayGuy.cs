@@ -33,19 +33,21 @@ public class HallwayGuy : MonoBehaviour
         public string ID => "Patrolling";
         
         private float progress;
+        private bool deaf;
 
         private Coroutine footstepCoroutine;
 
-        public Patrolling(float progress = 0.0f)
+        public Patrolling(float progress = 0.0f, bool deaf = false)
         {
             this.progress = progress;
+            this.deaf = deaf;
         }
         
         private IEnumerator FootstepLoop(HallwayGuy self)
         {
             while (true) {
-                yield return new WaitForSeconds(UnityEngine.Random.Range(1.0f, 1.1f));
                 self.audioSource.Play();
+                yield return new WaitForSeconds(UnityEngine.Random.Range(1.0f, 1.1f));
             }
         }
         
@@ -63,7 +65,8 @@ public class HallwayGuy : MonoBehaviour
                 self.ChangeState(new Idle());
             }
 
-            if (GameManager.Instance.IsNoiseAboveThreshold()) {
+            bool heard = !deaf && Vector3.Distance(self.transform.position, self.outsideDoorPosition) < self.hearingRadius;
+            if (heard && GameManager.Instance.IsNoiseAboveThreshold(2)) {
                 self.ChangeState(new Alert(progress));
             }
         }
@@ -78,45 +81,76 @@ public class HallwayGuy : MonoBehaviour
     {
         public string ID => "Alert";
 
-        public const float Speed = 1.5f;
-        private float patrolProgress;
-        private float progress;
+        private float speed = 1.5f;
         
-        private Vector3 startPosition;
+        private Vector3 start;
         private Coroutine footstepCoroutine;
-        private IEnumerator FootstepLoop(HallwayGuy self)
+        private IEnumerator FootstepLoop(HallwayGuy self, float waitMin, float waitMax)
         {
             while (true) {
-                yield return new WaitForSeconds(UnityEngine.Random.Range(1.0f, 1.1f));
                 self.audioSource.Play();
+                yield return new WaitForSeconds(UnityEngine.Random.Range(waitMin, waitMax));
             }
+        }
+
+        private IEnumerator Sequence(HallwayGuy self)
+        {
+            Debug.Log("Sequence: Heard something, stopping to listen...");
+            yield return new WaitForSeconds(1.0f);
+            
+            Debug.Log("Sequence: Moving towards door...");
+            Coroutine footsteps = self.StartCoroutine(FootstepLoop(self, 1.3f, 1.4f));
+            
+            float progress = 0.0f;
+            while (progress < 1.0f) {
+                progress += Time.deltaTime * (speed / Vector3.Distance(start, self.outsideDoorPosition));
+                self.transform.position = Vector3.Lerp(start, self.outsideDoorPosition, progress);
+                yield return null;
+            }
+
+            self.StopCoroutine(footsteps);
+            Debug.Log("Sequence: Waiting for a bit outside door...");
+            yield return new WaitForSeconds(0.75f);
+            
+            Debug.Log("Sequence: Knock on door...");
+            AudioManager.instance.PlaySoundFXClip(self.knockingSound, self.transform, 1.0f);
+            yield return new WaitForSeconds(5.0f);
+            
+            Debug.Log("Sequence: Check if making any noise...");
+            float elapsed = 0.0f;
+            while (elapsed < 4.0f) {
+                if (GameManager.Instance.IsNoiseAboveThreshold(1)) {
+                    Debug.Log("You died!");
+                    DeathManager.Instance.PlayDeathCutscene();
+                    yield break;
+                }
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            Debug.Log("Huh, must have been my imagination...");
+            self.ChangeState(new Patrolling(0.55f, true));
+            
+            Debug.Log("Sequence: DONE");
         }
 
         public Alert(float patrolProgress)
         {
-            this.patrolProgress = patrolProgress;
         }
         
         public void OnEnter(HallwayGuy self)
         {
-            startPosition = self.transform.position;
-            progress = 0.0f;
-            footstepCoroutine = self.StartCoroutine(FootstepLoop(self));
+            start = self.transform.position;
+            self.StartCoroutine(Sequence(self));
         }
 
         public void OnUpdate(HallwayGuy self)
         {
-            progress += Time.deltaTime * (self.patrolSpeed / Vector3.Distance(startPosition, self.outsideDoorPosition));
-            self.transform.position = Vector3.Lerp(startPosition, self.outsideDoorPosition, progress);
 
-            if (progress >= 1.0f) {
-                self.ChangeState(new Patrolling(patrolProgress));
-            }
         }
 
         public void OnExit(HallwayGuy self)
         {
-            self.StopCoroutine(footstepCoroutine);
         }
     }
 
@@ -124,6 +158,9 @@ public class HallwayGuy : MonoBehaviour
     public Vector3 patrolEnd;
     public float patrolSpeed;
     public Vector3 outsideDoorPosition;
+    public float hearingRadius = 4.5f;
+    
+    public AudioClip knockingSound;
     
     private IState state;
     
@@ -140,6 +177,9 @@ public class HallwayGuy : MonoBehaviour
         
         Gizmos.color = Color.green;
         Gizmos.DrawLine(patrolStart, patrolEnd);
+        
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(outsideDoorPosition, hearingRadius);
     }
 
     private void ChangeState(IState newState)

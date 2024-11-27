@@ -1,7 +1,5 @@
 using System;
-using UnityEditor.Rendering;
 using UnityEngine;
-using CameraEditorUtils = UnityEditor.CameraEditorUtils;
 
 public class PlayerController : MonoBehaviour
 {

@@ -14,9 +14,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int score = 0;
 
-    [SerializeField]
-    private int noise = 0;
-
     private int currentLevel = 1;
 
     public Animator levelTransition;
@@ -62,7 +59,7 @@ public class GameManager : MonoBehaviour
         score -= amount;
     }
 
-    public bool IsNoiseAboveThreshold()
+    public bool IsNoiseAboveThreshold(int threshold)
     {
         int noise = 0;
         if (stations != null) {
@@ -73,7 +70,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        return noise >= 2;
+        return noise >= threshold;
     }
     
     public IEnumerator LoadNextDay()

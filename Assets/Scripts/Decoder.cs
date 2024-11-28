@@ -56,12 +56,15 @@ public class Decoder : Station
                     inputField.DeactivateInputField();
                     inputField.gameObject.SetActive(false);
                 }
+                /*
                 else if (holdTool == morseBook)
                 {
                     morseBook.GetComponent<Book>().Deactivate();
                 }
+                */
                 holdTool.transform.position = toolOriginPos;
-                holdTool = null;   
+                holdTool = null;
+                return;
             }
             RaycastToTool();
         }
@@ -118,10 +121,12 @@ public class Decoder : Station
         active = false;
         if (holdTool)
         {
+            /*
             if (holdTool == morseBook)
             {
                 morseBook.GetComponent<Book>().Deactivate();
             }
+            */
             holdTool.transform.position = toolOriginPos;
             holdTool = null;
         }
@@ -141,18 +146,21 @@ public class Decoder : Station
         RaycastHit hit;
         if (Physics.Raycast(_camera.transform.position, testMousePos - _camera.transform.position, out hit, 5f, decodeToolLayer))
         {
+            if (hit.transform.gameObject == morseBook)
+            {
+                morseBook.GetComponent<Book>().Toggle();
+                return;
+            }
+
             holdTool = hit.transform.gameObject;
             toolOriginPos = holdTool.transform.position;
-            holdTool.transform.position = _camera.transform.position + (_camera.transform.forward * 0.5f);
+            holdTool.transform.position = _camera.transform.position + (_camera.transform.forward * 0.5f) + (-_camera.transform.right * 0.2f);
+
             if (holdTool == holdPaper)
             {
                 Debug.Log("Tool is Paper");
                 inputField.gameObject.SetActive(true);
                 inputField.ActivateInputField();
-            }
-            else if (holdTool == morseBook)
-            {
-                morseBook.GetComponent<Book>().Activate();
             }
             /*
             if(hit.transform == morseBook.transform)
@@ -192,13 +200,8 @@ public class Decoder : Station
             holdPaper.GetComponent<Paper>().RemoveFromInputMessage();
             return;
         }
-        // int indexChange = (Input.GetKeyDown("backspace")) ? -1 : 1;
         string input = inputField.text;
-        //Debug.Log("Full Input: " + input);
         holdPaper.GetComponent<Paper>().AddToInputMessage(input[input.Length -1]);
-        //Debug.Log("Paper Function Ended");
-      
-        //Debug.Log("Ending Input Function");
     }
     private void OnDrawGizmos()
     {

@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private GameObject focusTarget;
     private GameObject currentFocusedTarget;
 
+
+
     const string chairTag = "Chair";
     const string bedTag = "Bed";
     const string newsTag = "Newspaper";

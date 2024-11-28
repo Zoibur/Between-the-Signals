@@ -1,6 +1,7 @@
 //using System;
 //using System.Runtime.CompilerServices;
 //using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Cryptography;
 using UnityEngine;
 //using UnityEngine.TerrainUtils;
 
@@ -17,6 +18,9 @@ public class Radio : Station
     public AudioSource messageSFX;
     public AudioSource buttonSFX;
 
+    public AudioClip morseClip;
+    public AudioClip mumblingClip;
+
     bool isRadioOn = false;
 
     bool active = false;
@@ -30,6 +34,8 @@ public class Radio : Station
     float errorMargin = 5f;
 
     float changeAmount = 10f;
+
+    bool isMorse = false;
     //float changeAmpValueAmount = 5f;
     //float changeFreqValueAmount = 5f;
     
@@ -193,12 +199,21 @@ public class Radio : Station
 
             currentAmp = Random.Range(MIN_VALUE, MAX_VALUE);
             currentFreq = Random.Range(MIN_VALUE, MAX_VALUE);
+
         } while (IsAmplitudeInRange() || IsFrequencyInRange());
+
+        int randNum = Random.Range(1, 101);
+        isMorse = (randNum > 65);
+
+        messageSFX.clip = (isMorse) ? morseClip : mumblingClip;
 
         UpdateSoundValues();
     }
 
-
+    public bool GetIsMorse()
+    {
+        return isMorse;
+    }
     void ToggleRadio()
     {
         buttonSFX.Play();
@@ -213,9 +228,9 @@ public class Radio : Station
         else
         {
             noiseSFX.Stop();
-            messageSFX.Stop();
             currentLineRenderer.enabled = false;
 
+            messageSFX.Stop();
         }
     }
     void RaycastToKnob()

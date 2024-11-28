@@ -14,21 +14,24 @@ public class MessageList
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public MessageList()
     {
-        morsecodes.Add("ATT YES");
-        morsecodes.Add("REI NO PL");
-        morsecodes.Add("FL BU");
-        morsecodes.Add("SUP PLY");
-        morsecodes.Add("TE ST");
+        morsecodes.Add("SHIPMENT 56 32 5AM");
+        morsecodes.Add("RALLYPOINT 12 46 6PM");
+        morsecodes.Add("SPIES LECH 5");
+        morsecodes.Add("MISSILE KOP 8AM");
+        //morsecodes.Add("REI NO PL");
+        //morsecodes.Add("FL BU");
+        //morsecodes.Add("SUP PLY");
+        //morsecodes.Add("TE ST");
 
         sideWords[0] = "NORTH";
         sideWords[1] = "EAST";
         sideWords[2] = "SOUTH";
         sideWords[3] = "WEST";
 
-        locationWords[0] = "ARMAVIR";
-        locationWords[1] = "BOBROVKA";
-        locationWords[2] = "OKNO";
-        locationWords[3] = "DONGUZ";
+        locationWords[0] = "DOVDHOUR";
+        locationWords[1] = "KOP";
+        locationWords[2] = "LECH";
+        locationWords[3] = "ARTUPHER";
 
         actionWords[0] = "AIRSTRIKE";
         actionWords[1] = "FLANK";
@@ -130,7 +133,7 @@ public class MessageList
         {
             if (c == ' ')
             {
-                buffer += '/';
+                buffer += " | ";
                 continue;
             }
 
@@ -196,10 +199,10 @@ public class MessageList
             "WEST" => "WATER",
 
             // Location
-            "ARMAVIR" => "ALPHA",
-            "BOBROVKA" => "BETA",
-            "OKNO" => "GAMMA",
-            "DONGUZ" => "DELTA",
+            "DOVDHOUR" => "ALPHA",
+            "KOP" => "BETA",
+            "LECH" => "GAMMA",
+            "ARTUPHER" => "DELTA",
 
             // Action
             "AIRSTRIKE" => "DRAGON",

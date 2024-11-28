@@ -88,6 +88,7 @@ public class FaxMachine : Station
         {
             // Else 
             // Red light
+            GameManager.Instance.DeductScore(1);
             Debug.Log("Values Doesnt Match | Failure");
             failSFX.Play();
         }

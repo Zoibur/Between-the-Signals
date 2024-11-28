@@ -46,6 +46,12 @@ public class Book : MonoBehaviour
         }
     }
     */
+    public void Toggle()
+    {
+        transform.GetChild(0).gameObject.SetActive(!transform.GetChild(0).gameObject.activeSelf);
+        transform.GetChild(1).gameObject.SetActive(!transform.GetChild(1).gameObject.activeSelf);
+    }
+    /*
     public void Activate()
     {
        transform.GetChild(0).gameObject.SetActive(false);
@@ -56,6 +62,7 @@ public class Book : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(false);
     }
+    */
     /*
     public void NextPage()
     {

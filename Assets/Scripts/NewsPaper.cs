@@ -37,6 +37,7 @@ public class NewsPaper : MonoBehaviour
     bool zoomed = false;
 
     bool inspectSkip = false;
+    bool skipNote = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,24 +45,44 @@ public class NewsPaper : MonoBehaviour
         int currentDay = PlayerPrefs.GetInt("CurrentLevel");
         if(currentDay == 1)
         {
-            modelText.text = "Day 1";
+            skipNote = false;
+           // modelText.text = "Day 1";
             transform.position = dayOnePosition;
             transform.Rotate(new Vector3(0f, 180f, 0f));
             //gameObject.SetActive(false);
             return;
         }
-        int playerScore = PlayerPrefs.GetInt("PreviousScore");
-        int maxScore = PlayerPrefs.GetInt("PreviousMaxScore");
-        int missingPoints = maxScore - playerScore;
-        int m = 100;
+        int playerSuccess = PlayerPrefs.GetInt("PreviousSuccess");
+        int playerFails = PlayerPrefs.GetInt("PreviousFailures");
+        //int maxScore = PlayerPrefs.GetInt("PreviousMaxScore");
+        //int missingPoints = maxScore - playerScore;
+        int m = 500;
+        string todaysNews = "";
+        if (playerSuccess > 0)
+        {
+            todaysNews += (playerSuccess * m).ToString() + " Civilians Saved in Attack!";
+        }
+        if (playerFails == 0)
+        {
+            playerFails = 2;
+        }
+        todaysNews += (playerFails * m).ToString() + " Civilians Dead in Attack!";
+        //int result = playerScore * 500;
         originPos = transform.position;
 
-        string todaysNews = "";
+       
         string todaysMission = "";
 
         Debug.Log("Day: " + currentDay.ToString());
-        
-        switch(currentDay)
+        secretNote.SetActive(false);
+
+
+
+        //todaysNews += (playerScore > 0) ? " Civilians Survived Attack!" : " Civilians Dead In Attack!";
+        //todaysNews = (m * missingPoints).ToString() + " Civilians Dead in attack.\n" + (m * playerScore).ToString() + " Civilians were saved";
+
+        /*
+        switch (currentDay)
         {
             case 2:
                 todaysNews = "Day 2";
@@ -74,14 +95,14 @@ public class NewsPaper : MonoBehaviour
                 break;
             case 5:
                 todaysNews = (m * missingPoints).ToString() + " Civilians Dead in attack.\n" + (m * playerScore).ToString() + " Civilians were saved";
-              /*  todaysMission = "Todays Mission\n" +
+                todaysMission = "Todays Mission\n" +
                     "Find and Decypher 3 Enemy Messages and then Send them to us.\n" +
                     "Intel suggest that apartments in your area will have check ups from Soldiers\nMake sure to not make sounds when Soldiers are near.\n" +
                     "Let no soldier find your equipment.";
-                */
+                
                 break;
         }
-        
+        */
 
         //uiNewspaper = uiPaper.transform.GetChild(1).gameObject;
         //uiHiddenLetter = uiPaper.transform.GetChild(0).gameObject;
@@ -180,12 +201,16 @@ public class NewsPaper : MonoBehaviour
         // Show button
         //uiPaper.SetActive(true);
         //uiActive = true;
+
         inspectSkip = true;
         Debug.Log("Inspect Paper");
         zoomed = true;
-        noteButton.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        if (!skipNote)
+        {
+            noteButton.SetActive(true);
+        }
       
     }
     public void ShowHiddenLetter()

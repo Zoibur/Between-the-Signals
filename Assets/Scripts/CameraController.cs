@@ -7,6 +7,8 @@ public class CameraController : MonoBehaviour
     public CinemachineVirtualCamera atDeskCamera;
     public CinemachineVirtualCamera focusCamera;
 
+    public GameObject crosshair;
+
     public float atDeskRotationVertical = 90f;
     public float atDeskRotationHorizontal = 36f;
     
@@ -31,11 +33,13 @@ public class CameraController : MonoBehaviour
                 movingCamera.gameObject.SetActive(true);
                 atDeskCamera.gameObject.SetActive(false);
                 focusCamera.gameObject.SetActive(false);
+                crosshair.gameObject.SetActive(true);
                 ResetAtDeskCamera();
             } else if (controller.state == PlayerController.PlayerState.AtDesk) {
                 movingCamera.gameObject.SetActive(false);
                 atDeskCamera.gameObject.SetActive(true);
                 focusCamera.gameObject.SetActive(false);
+                crosshair.gameObject.SetActive(true);
             } else if (controller.state == PlayerController.PlayerState.Focus) {
                 Interactable interactable = controller.GetFocusInteractable();
                 focusCamera.transform.SetPositionAndRotation(interactable.GetFocusPosition(), interactable.GetFocusRotation());
@@ -44,6 +48,7 @@ public class CameraController : MonoBehaviour
                 movingCamera.gameObject.SetActive(false);
                 atDeskCamera.gameObject.SetActive(false);
                 focusCamera.gameObject.SetActive(true);
+                crosshair.gameObject.SetActive(false);
             }
         };
     }

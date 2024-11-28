@@ -102,6 +102,15 @@ public class Printer : Station
         holdPaper.transform.rotation = transform.rotation;
         holdPaper.transform.Rotate(90f, 0f, 0f);
 
+        if(radio.GetIsMorse())
+        {
+            CreateMorseCodePaper();
+        }
+        else
+        {
+            CreateSecretCodePaper();
+        }
+        /*
         int randNum = Random.Range(0, 2);
         switch(randNum)
         {
@@ -111,7 +120,7 @@ public class Printer : Station
             case 1:
                 CreateSecretCodePaper();
                 break;
-        }
+        }*/
        
         //GetComponent<Renderer>().material.color = Color.green;
 
@@ -136,7 +145,7 @@ public class Printer : Station
         {
             return;
         }
-        buttonSFX.Play();
+  
         if (holdPaper)
         {
             lerpStage = LerpStage.SecondLerp;
@@ -151,6 +160,7 @@ public class Printer : Station
             */
             return;
         }
+        buttonSFX.Play();
         active = true;
         //successPrint = radio.IsValuesCorrect();
         successPrint = (radio.IsAmplitudeInRange() && radio.IsFrequencyInRange());
@@ -159,7 +169,7 @@ public class Printer : Station
         timer = (successPrint) ? PRINT_TIME : FAIL_TIME;
         //GetComponent<Renderer>().material.color = (successPrint) ? Color.yellow : Color.red;
       
-           workingSFX.Play();
+        workingSFX.Play();
         
     }
 

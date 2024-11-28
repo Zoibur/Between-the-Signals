@@ -10,8 +10,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public Station[] stations;
-    
+
     [SerializeField]
+
+    int successScore = 0;
+    int failScore = 0;
     private int score = 0;
 
     private int currentLevel = 1;
@@ -26,11 +29,11 @@ public class GameManager : MonoBehaviour
 
     public void Awake()
     {
-        levelNames[0] = "1956-11-24";
-        levelNames[1] = "1956-12-01";
-        levelNames[2] = "1956-12-08";
-        levelNames[3] = "1956-12-15";
-        levelNames[4] = "1956-12-22";
+        levelNames[0] = "1956-11-03";
+        levelNames[1] = "1956-11-10";
+        levelNames[2] = "1956-11-17";
+        levelNames[3] = "1956-11-24";
+        levelNames[4] = "1956-12-01";
 
         Instance = this;
         levelTransition.gameObject.SetActive(true);
@@ -48,6 +51,7 @@ public class GameManager : MonoBehaviour
         if (amount <= 0)
             return;
 
+        successScore += amount;
         score += amount;
     }
 
@@ -56,6 +60,7 @@ public class GameManager : MonoBehaviour
         if (amount <= 0)
             return;
 
+        failScore += amount;
         score -= amount;
     }
 
@@ -99,7 +104,9 @@ public class GameManager : MonoBehaviour
         levelTransition.SetTrigger("Start");
         yield return new WaitForSeconds(transitionTime);
 
-        PlayerPrefs.SetInt("PlayerScore", PlayerPrefs.GetInt("PlayerScore") + score);
+        PlayerPrefs.SetInt("PreviousSuccess", successScore);
+        PlayerPrefs.SetInt("PreviousFailures", failScore);
+        PlayerPrefs.SetInt("PlayerScore", PlayerPrefs.GetInt("PlayerScore") + (successScore - failScore));
         SceneManager.LoadScene(index);
     }
 

@@ -26,11 +26,11 @@ public class GameManager : MonoBehaviour
 
     public void Awake()
     {
-        levelNames[0] = "1956-11-23";
-        levelNames[1] = "1957-01-04";
-        levelNames[2] = "1957-03-23";
-        levelNames[3] = "1957-04-07";
-        levelNames[4] = "1957-06-19";
+        levelNames[0] = "1956-11-24";
+        levelNames[1] = "1956-12-01";
+        levelNames[2] = "1956-12-08";
+        levelNames[3] = "1956-12-15";
+        levelNames[4] = "1956-12-22";
 
         Instance = this;
         levelTransition.gameObject.SetActive(true);

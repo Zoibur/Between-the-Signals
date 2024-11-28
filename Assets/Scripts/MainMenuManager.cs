@@ -8,6 +8,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject levelsOverlay;
     public GameObject settingsOverlay;
     public GameObject creditsOverlay;
+    public GameObject tutorialOverlay;
     public Button loadLevelsButton;
 
     public GameObject lampObject;
@@ -62,10 +63,16 @@ public class MainMenuManager : MonoBehaviour
         settingsOverlay.SetActive(false);
         creditsOverlay.SetActive(false);
         levelsOverlay.SetActive(false);
+        tutorialOverlay.SetActive(false);
         mainOverlay.SetActive(true);
 
     }
   
+    public void OpenTutorial()
+    {
+        tutorialOverlay.SetActive(true);
+        mainOverlay.SetActive(false);
+    }
     public void QuitGame()
     {
         Application.Quit();

@@ -44,6 +44,7 @@ public class NewsPaper : MonoBehaviour
         int currentDay = PlayerPrefs.GetInt("CurrentLevel");
         if(currentDay == 1)
         {
+            modelText.text = "Day 1";
             transform.position = dayOnePosition;
             transform.Rotate(new Vector3(0f, 180f, 0f));
             //gameObject.SetActive(false);
@@ -59,25 +60,28 @@ public class NewsPaper : MonoBehaviour
         string todaysMission = "";
 
         Debug.Log("Day: " + currentDay.ToString());
-        /*
+        
         switch(currentDay)
         {
             case 2:
-              
-                
+                todaysNews = "Day 2";
+                break;
             case 3:
-               
+                todaysNews = "Day 3";
+                break;
             case 4:
-                
+                todaysNews = "Day 4";
+                break;
             case 5:
                 todaysNews = (m * missingPoints).ToString() + " Civilians Dead in attack.\n" + (m * playerScore).ToString() + " Civilians were saved";
-                todaysMission = "Todays Mission\n" +
+              /*  todaysMission = "Todays Mission\n" +
                     "Find and Decypher 3 Enemy Messages and then Send them to us.\n" +
                     "Intel suggest that apartments in your area will have check ups from Soldiers\nMake sure to not make sounds when Soldiers are near.\n" +
                     "Let no soldier find your equipment.";
+                */
                 break;
         }
-        */
+        
 
         //uiNewspaper = uiPaper.transform.GetChild(1).gameObject;
         //uiHiddenLetter = uiPaper.transform.GetChild(0).gameObject;

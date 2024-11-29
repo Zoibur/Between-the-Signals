@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using TMPro;
 public class EndingManager : MonoBehaviour
 {
     enum EndingState
@@ -18,9 +19,16 @@ public class EndingManager : MonoBehaviour
 
     public GameObject newsPaper;
 
+    public GameObject skipText;
+
+    // Credits
+    public Animator credits;
+  
+
+    // Cutscene
     int currentStage = 0;
     float stageProgress = 0f;
-    float progressSpeed = 0.5f;
+    float progressSpeed = 0.8f;
     Camera cam;
 
     Vector3 oriPos;
@@ -55,18 +63,33 @@ public class EndingManager : MonoBehaviour
         ending = (playerScore < maxScore) ? 1 : 2;
 
         Debug.Log("PlayerScore: " + playerScore.ToString() + " | Ending: " + ending.ToString());
+
+      
+        switch(ending)
+        {
+            case 1:
+                newsPaper.GetComponentInChildren<TextMeshPro>().text = "The War is Won!\nThe Goverment is now cleansing the captial from any hiding spies.";
+                break;
+            case 2:
+                newsPaper.GetComponentInChildren<TextMeshPro>().text = "The War is Over!\nOur Great Nation has been Annexed.";
+                break;
+        }
+
+        StartCoroutine(StartCutscene());
     }
 
+
+    IEnumerator StartCutscene()
+    {
+        yield return new WaitForSeconds(4f);
+        state = EndingState.Cutscene;
+    }
     // Update is called once per frame
     void Update()
     {
         switch(state)
         {
             case EndingState.PreCutscene:
-                if (Input.anyKeyDown)
-                {
-                    state = EndingState.Cutscene;
-                }
                 break;
             case EndingState.Cutscene:
                 switch (ending)
@@ -82,7 +105,11 @@ public class EndingManager : MonoBehaviour
             case EndingState.Credits:
                 if (Input.anyKeyDown)
                 {
-                    StartCoroutine(GoToMainMenu());
+                    if (skipText.gameObject.activeSelf)
+                    {
+                        SceneManager.LoadScene(0);
+                    }
+                    skipText.gameObject.SetActive(true);
                 }
                 break;
         }
@@ -118,26 +145,31 @@ public class EndingManager : MonoBehaviour
             case 5:
                 // Load Credits
                 //StartCoroutine(LoadCredits());
-                ActivateCredits();
+                StartCoroutine(EndCutscene());
                 break;
         }
     }
 
     void UpdateEndingTwo()
     {
-
+        
     }
 
-    IEnumerator GoToMainMenu()
+   
+    IEnumerator EndCutscene()
     {
-        transition.SetTrigger("Start");
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene(0);
-    }
-    void ActivateCredits()
-    {
-        transition.SetTrigger("Start");
         state = EndingState.Credits;
+        transition.SetTrigger("Start");
+        yield return new WaitForSeconds(2f);
+        StartCoroutine(ActivateCredits());
+    }
+
+    IEnumerator ActivateCredits()
+    {
+        credits.transform.gameObject.SetActive(true);
+        credits.SetTrigger("Start");
+        yield return new WaitForSeconds(20f);
+        SceneManager.LoadScene(0);
     }
     /*
     public IEnumerator LoadCredits()

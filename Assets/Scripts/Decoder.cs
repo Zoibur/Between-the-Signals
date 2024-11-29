@@ -69,6 +69,11 @@ public class Decoder : Station
         }
     }
 
+
+    public bool HasPaper()
+    {
+        return holdPaper != null;
+    }
     public void SetPaper(GameObject paper)
     {
         holdPaper = paper;

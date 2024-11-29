@@ -148,6 +148,10 @@ public class Printer : Station
   
         if (holdPaper)
         {
+            if(decoder.HasPaper())
+            {
+                return;
+            }
             lerpStage = LerpStage.SecondLerp;
             lerpProgress = 0f;
             successPrintSFX.Stop();

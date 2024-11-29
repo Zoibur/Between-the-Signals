@@ -200,10 +200,6 @@ public class HallwayGuy : MonoBehaviour
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            ChangeState(new Patrolling());
-        }
-
         if (state != null) {
             state.OnUpdate(this);
         }

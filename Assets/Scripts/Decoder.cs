@@ -13,7 +13,9 @@ public class Decoder : Station
     Vector3 bookOriginPos;
     public float itemDist = 0.3f;
     GameObject holdTool;
-    Vector3 toolOriginPos; 
+    Vector3 toolOriginPos;
+    GameObject focusTarget;
+    public GameObject interactUI;
 
     // Paper Lerping
     bool lerping = false;
@@ -48,25 +50,22 @@ public class Decoder : Station
         }
         if(Input.GetMouseButtonDown(0))
         {
+            /*
             if (holdTool)
             {
                 if(holdTool == holdPaper)
                 {
-                    //holdPaper.GetComponent<Paper>().SetInputMessage(inputField.text.ToString());
                     inputField.DeactivateInputField();
                     inputField.gameObject.SetActive(false);
                 }
-                /*
-                else if (holdTool == morseBook)
-                {
-                    morseBook.GetComponent<Book>().Deactivate();
-                }
-                */
+                
                 holdTool.transform.position = toolOriginPos;
                 holdTool = null;
                 return;
             }
             RaycastToTool();
+            */
+            SelectRaycastedObject();
         }
     }
 
@@ -120,13 +119,7 @@ public class Decoder : Station
         Cursor.visible = false;
         active = false;
         if (holdTool)
-        {
-            /*
-            if (holdTool == morseBook)
-            {
-                morseBook.GetComponent<Book>().Deactivate();
-            }
-            */
+        {       
             holdTool.transform.position = toolOriginPos;
             holdTool = null;
         }
@@ -134,6 +127,62 @@ public class Decoder : Station
     public override bool IsZoomer()
     {
         return true;
+    }
+
+
+    void SelectRaycastedObject()
+    {
+        if (holdTool)
+        {
+            if (holdTool == holdPaper)
+            {
+                inputField.DeactivateInputField();
+                inputField.gameObject.SetActive(false);
+            }
+
+            holdTool.transform.position = toolOriginPos;
+            holdTool = null;
+            return;
+        }
+        if (focusTarget == morseBook)
+        {
+            morseBook.GetComponent<Book>().Toggle();
+            return;
+        }
+
+        holdTool = focusTarget;
+        toolOriginPos = holdTool.transform.position;
+        holdTool.transform.position = _camera.transform.position + (_camera.transform.forward * 0.5f) + (-_camera.transform.right * 0.2f);
+
+        if (holdTool == holdPaper)
+        {
+            Debug.Log("Tool is Paper");
+            inputField.gameObject.SetActive(true);
+            inputField.ActivateInputField();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!active)
+        {
+            return;
+        }
+        Vector3 testMousePos = Input.mousePosition;
+        testMousePos.z = 100f;
+        testMousePos = _camera.ScreenToWorldPoint(testMousePos);
+
+        RaycastHit hit;
+        if (Physics.Raycast(_camera.transform.position, testMousePos - _camera.transform.position, out hit, 5f, decodeToolLayer))
+        {
+            focusTarget = hit.transform.gameObject;
+            interactUI.SetActive(true);
+        }
+        else
+        {
+            focusTarget = null;
+            interactUI.SetActive(false);
+        }
     }
 
     void RaycastToTool()
@@ -195,7 +244,7 @@ public class Decoder : Station
         {
             return;
         }
-        if(Input.GetKeyDown("backspace"))
+        if(Input.GetKey("backspace"))
         {
             holdPaper.GetComponent<Paper>().RemoveFromInputMessage();
             return;

@@ -4220,42 +4220,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.03, y: 0.6, z: 0.55}
   m_Center: {x: -0.22, y: 1.73, z: -1.03}
---- !u!114 &1120129262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120129259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3a8d07872296904e9d634176ad569a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noiseSFX: {fileID: 0}
-  messageSFX: {fileID: 0}
-  buttonSFX: {fileID: 0}
-  mode: 0
-  currentLineRenderer: {fileID: 96049605}
-  points: 60
-  xLimits: {x: 0, y: 1, z: 0}
-  waveEndX: 0.8
-  movementSpeed: 6
---- !u!114 &1120129263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120129259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c9846307e007c04a85c2bb0652196b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  focusFrom: {x: -0.3, y: 2, z: -2}
-  focusAt: {x: -0.3, y: 1.5, z: 0}
-  focusFOV: 60
 --- !u!1001 &1133776316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5323,13 +5287,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6314893380661927027, guid: 9206c95a1bb92e642a1e30e685832412, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1120129262}
-    - targetCorrespondingSourceObject: {fileID: 6314893380661927027, guid: 9206c95a1bb92e642a1e30e685832412, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1120129261}
-    - targetCorrespondingSourceObject: {fileID: 6314893380661927027, guid: 9206c95a1bb92e642a1e30e685832412, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1120129263}
     - targetCorrespondingSourceObject: {fileID: 2772106638245708465, guid: 9206c95a1bb92e642a1e30e685832412, type: 3}
       insertIndex: -1
       addedObject: {fileID: 60498096}
@@ -6024,7 +5982,7 @@ MonoBehaviour:
   workingSFX: {fileID: 0}
   failPrintSFX: {fileID: 0}
   buttonSFX: {fileID: 0}
-  radio: {fileID: 1120129262}
+  radio: {fileID: 0}
   decoder: {fileID: 0}
   paperPrefab: {fileID: 3697121536556021106, guid: c39f13810d0c1bc45b957885322465e1, type: 3}
   printerCenter: {x: -0.15, y: 1.5, z: 4.5}

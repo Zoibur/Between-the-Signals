@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject sleepMachine;
 
+    public GameObject[] interactUI = new GameObject[3];
+
     void Awake()
     {
         interactableLayerMask = LayerMask.GetMask("Interactable");
@@ -122,16 +124,31 @@ public class PlayerController : MonoBehaviour
         {
             Debug.DrawRay(_camera.transform.position, _camera.transform.forward * hit.distance, Color.green);
             focusTarget = hit.collider.gameObject;
+
+            if (focusTarget.tag == chairTag || focusTarget.tag == bedTag)
+            {
+                interactUI[0].SetActive(true);
+                interactUI[2].SetActive(false);
+            }
+            else
+            {
+                interactUI[2].SetActive(true);
+                interactUI[0].SetActive(false);
+            }
         }
         else if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit, 5f, stationLayerMask) && state == PlayerState.AtDesk)
         {
             Debug.DrawRay(_camera.transform.position, _camera.transform.forward * hit.distance, Color.green);
             focusTarget = hit.collider.gameObject;
+            interactUI[2].SetActive(true);
         }
         else
         {
             Debug.DrawRay(_camera.transform.position, _camera.transform.forward * 5f, Color.red);
             focusTarget = null;
+            interactUI[0].SetActive(false);
+            interactUI[1].SetActive(false);
+            interactUI[2].SetActive(false);
         }
 
         if (state == PlayerState.Moving) {

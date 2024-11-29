@@ -36,10 +36,12 @@ public class Radio : Station
     float changeAmount = 10f;
 
     bool isMorse = false;
+
+    public GameObject[] interactUI = new GameObject[2];
     //float changeAmpValueAmount = 5f;
     //float changeFreqValueAmount = 5f;
-    
-    
+
+    GameObject focusTarget;
 
     //public GameObject uiButtons;
 
@@ -47,7 +49,7 @@ public class Radio : Station
     Camera _camera;
     LayerMask knobLayer;
     public KnobMode mode = KnobMode.None;
-    Vector3 mousePos = Vector3.zero;
+    //Vector3 mousePos = Vector3.zero;
     Transform knobTarget;
     float beforeValue = 0f;
 
@@ -107,7 +109,8 @@ public class Radio : Station
 
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastToKnob();
+            SelectRaycastedObject();
+           // RaycastToKnob();
         }
         if(mode == KnobMode.AmplitudeOn)
         {
@@ -172,7 +175,10 @@ public class Radio : Station
         if(knobTarget)
         {
             knobTarget.GetComponent<Renderer>().material.color = Color.white;
+            interactUI[1].SetActive(false);
         }
+        interactUI[0].SetActive(false);
+        interactUI[1].SetActive(false);
     }
 
     public override bool IsZoomer()
@@ -233,6 +239,63 @@ public class Radio : Station
             messageSFX.Stop();
         }
     }
+
+
+    void SelectRaycastedObject()
+    {
+        if (knobTarget)
+        {
+
+            knobTarget.GetComponent<Renderer>().material.color = Color.white;
+            interactUI[1].SetActive(false);
+            knobTarget = null;
+            mode = KnobMode.None;
+            
+        }
+        if(!focusTarget)
+        {
+            return;
+        }
+        if (focusTarget.transform.tag == "Button")
+        {
+            ToggleRadio();
+            return;
+        }
+        knobTarget = focusTarget.transform;
+        mode = (knobTarget.tag == "AmplitudeKnob") ? KnobMode.AmplitudeOn : KnobMode.FrequencyOn;
+        knobTarget.GetComponent<Renderer>().material.color = Color.red;
+        interactUI[1].SetActive(true);
+        interactUI[0].SetActive(false);
+        beforeValue = (mode == KnobMode.AmplitudeOn) ? currentAmp : currentFreq;
+        // Other stuff
+    }
+    private void FixedUpdate()
+    {
+        if (!active)
+        {
+            return;
+        }
+        // Raycast
+        // gameobject for focused Target
+
+        Vector3 testMousePos = Input.mousePosition;
+        testMousePos.z = 100f;
+        testMousePos = _camera.ScreenToWorldPoint(testMousePos);
+
+        RaycastHit hit;
+        if (Physics.Raycast(_camera.transform.position, testMousePos - _camera.transform.position, out hit, 5f, knobLayer))
+        {
+            focusTarget = hit.transform.gameObject;
+            interactUI[0].SetActive(true);
+        }
+        else
+        {
+            focusTarget = null;
+            interactUI[0].SetActive(false);
+        }
+    }
+
+    /*
     void RaycastToKnob()
     {
         if(knobTarget)
@@ -256,12 +319,13 @@ public class Radio : Station
             }
             knobTarget = hit.transform;
             mode = (knobTarget.tag == "AmplitudeKnob") ? KnobMode.AmplitudeOn : KnobMode.FrequencyOn;
-            mousePos = hit.point;
-            mousePos.z = knobTarget.position.z;
+            //mousePos = hit.point;
+            //mousePos.z = knobTarget.position.z;
             knobTarget.GetComponent<Renderer>().material.color = Color.red;
             beforeValue = (mode == KnobMode.AmplitudeOn) ? currentAmp : currentFreq;
         }
     }
+    */
     
     void UpdateKnobValues(ref float valueToChange)
     {

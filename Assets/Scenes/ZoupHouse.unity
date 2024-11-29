@@ -1659,7 +1659,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.09803922}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2512,8 +2512,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 436207615
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.09803922}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5292,10 +5292,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -5535,6 +5535,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: f4d47a1e16ccdb94399d9de3550c3e0d, type: 2}
+    - target: {fileID: -6763858364670572316, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5599537984901626078, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -5550,6 +5554,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
       propertyPath: m_Name
       value: ROOMSTATIONS
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502877291743220047, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1738776581880846596, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -5862,7 +5870,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press [Left-Mousebutton]'
+  m_text: 'Press [LMB]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9599c5fa479b40446b7430cbaaeeea4f, type: 2}
   m_sharedMaterial: {fileID: 7116458693091689065, guid: 9599c5fa479b40446b7430cbaaeeea4f, type: 2}
@@ -5872,7 +5880,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.09803922}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6141,7 +6149,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press [Right-Mousebutton]'
+  m_text: 'Press [RMB]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9599c5fa479b40446b7430cbaaeeea4f, type: 2}
   m_sharedMaterial: {fileID: 7116458693091689065, guid: 9599c5fa479b40446b7430cbaaeeea4f, type: 2}
@@ -6151,7 +6159,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.09803922}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

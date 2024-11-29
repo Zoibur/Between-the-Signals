@@ -204,4 +204,26 @@ public class HallwayGuy : MonoBehaviour
             state.OnUpdate(this);
         }
     }
+    
+    private void OnEvent(EventManager.EventID eventID)
+    {
+        switch (eventID) {
+            case EventManager.EventID.StartPatrol:
+                /* only start patrol if we're idle */
+                if (state.GetType() == typeof(Idle)) {
+                    ChangeState(new Patrolling());
+                }
+                break;
+        }
+    }
+    
+    private void OnEnable()
+    {
+        EventManager.OnEventRaised += OnEvent;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnEventRaised -= OnEvent;
+    }
 }

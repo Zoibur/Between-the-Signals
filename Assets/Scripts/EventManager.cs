@@ -24,6 +24,7 @@ public class EventManager : MonoBehaviour
         WindowTap,
         ToiletFlush,
         StartPatrol,
+        LightFlicker,
     };
 
     public float minEventInterval;

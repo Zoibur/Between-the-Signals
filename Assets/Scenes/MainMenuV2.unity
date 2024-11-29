@@ -2004,7 +2004,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: a5e528752e49b6e4c8367737f8801129, type: 3}
   m_Resource: {fileID: 8300000, guid: a5e528752e49b6e4c8367737f8801129, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5098,7 +5098,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tutorial
+  m_text: 'How To play
 
 '
   m_isRightToLeft: 0
@@ -5127,8 +5127,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6115,6 +6115,7 @@ MonoBehaviour:
   decoder: {fileID: 0}
   paperPrefab: {fileID: 3697121536556021106, guid: c39f13810d0c1bc45b957885322465e1, type: 3}
   printerCenter: {x: -0.15, y: 1.5, z: 4.5}
+  redButton: {fileID: 0}
 --- !u!65 &1664557434
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12965,11 +12966,56 @@ PrefabInstance:
       propertyPath: m_Name
       value: TutorialOveraly
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    - target: {fileID: 8796204408960826699, guid: da64b3281669363428fe4f09dfe4c025, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9206100204653444722, guid: da64b3281669363428fe4f09dfe4c025, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -498.9
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5964599064517850160, guid: da64b3281669363428fe4f09dfe4c025, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 7568080348004028141, guid: da64b3281669363428fe4f09dfe4c025, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8218414886667974692, guid: da64b3281669363428fe4f09dfe4c025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 456054339808474580}
   m_SourcePrefab: {fileID: 100100000, guid: da64b3281669363428fe4f09dfe4c025, type: 3}
+--- !u!1 &456054339808474579 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8218414886667974692, guid: da64b3281669363428fe4f09dfe4c025, type: 3}
+  m_PrefabInstance: {fileID: 456054339808474578}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &456054339808474580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456054339808474579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: 09b2e832eb744614eac9e694a1d0e380, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &1092872706580558305
 GameObject:
   m_ObjectHideFlags: 0

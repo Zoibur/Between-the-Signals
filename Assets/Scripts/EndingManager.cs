@@ -23,7 +23,13 @@ public class EndingManager : MonoBehaviour
 
     // Credits
     public Animator credits;
-  
+
+    public TextMeshProUGUI outcomeText;
+
+    public AudioClip gulp;
+    public AudioClip thump;
+    public AudioClip knock;
+
 
     // Cutscene
     int currentStage = 0;
@@ -42,7 +48,7 @@ public class EndingManager : MonoBehaviour
     Vector3 paperOriRot;
     Vector3 paperDstRot;
 
-    float timePerDev = 3f;
+    //float timePerDev = 3f;
   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -69,9 +75,11 @@ public class EndingManager : MonoBehaviour
         {
             case 1:
                 newsPaper.GetComponentInChildren<TextMeshPro>().text = "The War is Won!\nThe Goverment is now cleansing the captial from any hiding spies.";
+                outcomeText.text = "After the war, you had no other choice than to kill yourself before the goverment caught you.";
                 break;
             case 2:
                 newsPaper.GetComponentInChildren<TextMeshPro>().text = "The War is Over!\nOur Great Nation has been Annexed.";
+                outcomeText.text = "After the war, a rescue squad enter the city to escort you home to your loving wife and child. You were celebrated as a hero.";
                 break;
         }
 
@@ -161,6 +169,10 @@ public class EndingManager : MonoBehaviour
         state = EndingState.Credits;
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(2f);
+        AudioManager.instance.PlaySoundFXClip(gulp, transform, 1f);
+        yield return new WaitForSeconds(3f);
+        AudioManager.instance.PlaySoundFXClip(thump, transform, 0.8f);
+        yield return new WaitForSeconds(1f);
         StartCoroutine(ActivateCredits());
     }
 

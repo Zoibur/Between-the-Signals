@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 public class Book : MonoBehaviour
 {
-    
 
     /*
     public static int pagesAmount = 9;
@@ -46,6 +45,10 @@ public class Book : MonoBehaviour
         }
     }
     */
+    public bool IsActive()
+    {
+        return transform.GetChild(1).gameObject.activeSelf;
+    }
     public void Toggle()
     {
         transform.GetChild(0).gameObject.SetActive(!transform.GetChild(0).gameObject.activeSelf);

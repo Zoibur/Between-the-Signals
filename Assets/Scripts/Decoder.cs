@@ -128,6 +128,10 @@ public class Decoder : Station
             holdTool.transform.position = toolOriginPos;
             holdTool = null;
         }
+        if(morseBook.GetComponent<Book>().IsActive())
+        {
+            morseBook.GetComponent<Book>().Toggle();
+        }
     }
     public override bool IsZoomer()
     {

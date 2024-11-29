@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator LoadNextDay()
     {
         levelTransition.SetTrigger("Start");
+        Debug.Log("Loading next day");
       
         yield return new WaitForSeconds(transitionTime);
 
@@ -96,12 +97,13 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("HighestLevelReached", currentLevel);
         }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex));
     }
 
     public IEnumerator LoadScene(int index)
     {
         levelTransition.SetTrigger("Start");
+        Debug.Log("This Round: Success: " + successScore.ToString() + " | Failures: " + failScore.ToString() + " | Final Score: " + (successScore - failScore).ToString());
         yield return new WaitForSeconds(transitionTime);
 
         PlayerPrefs.SetInt("PreviousSuccess", successScore);

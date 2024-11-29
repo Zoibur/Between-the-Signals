@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class HallwayGuy : MonoBehaviour
 {
+ 
     private interface IState
     {
         string ID { get; }
@@ -30,6 +31,7 @@ public class HallwayGuy : MonoBehaviour
 
     private class Patrolling : IState
     {
+        int noiseThreshhold = 1;
         public string ID => "Patrolling";
         
         private float progress;
@@ -66,7 +68,7 @@ public class HallwayGuy : MonoBehaviour
             }
 
             bool heard = !deaf && Vector3.Distance(self.transform.position, self.outsideDoorPosition) < self.hearingRadius;
-            if (heard && GameManager.Instance.IsNoiseAboveThreshold(2)) {
+            if (heard && GameManager.Instance.IsNoiseAboveThreshold(noiseThreshhold)) {
                 self.ChangeState(new Alert(progress));
             }
         }

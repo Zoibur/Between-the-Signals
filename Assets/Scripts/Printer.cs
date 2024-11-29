@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Printer : Station
@@ -23,6 +24,9 @@ public class Printer : Station
     private GameObject holdPaper = null;
 
     public Vector3 printerCenter;
+
+    public GameObject redButton;
+    float buttonLerpProgress = 0f;
 
     //bool lerping = false;
     float lerpProgress = 0f;
@@ -86,6 +90,25 @@ public class Printer : Station
         }
     }
 
+    IEnumerator ButtonMovement()
+    {
+        Vector3 oriPos = redButton.transform.position;
+        Vector3 dstPos = oriPos - new Vector3(0f, 0.02f, 0f);
+        float progress = 0.0f;
+        float speed = 10f;
+        while (progress < 1.0f)
+        {
+            redButton.transform.position = Vector3.Lerp(oriPos, dstPos, progress);
+            progress += Time.deltaTime * speed;
+            yield return null;
+        }
+        while (progress > 0.0f)
+        {
+            redButton.transform.position = Vector3.Lerp(oriPos, dstPos, progress);
+            progress -= Time.deltaTime * speed;
+            yield return null;
+        }
+    }
     public void Print()
     {
         if (!successPrint) 
@@ -110,19 +133,7 @@ public class Printer : Station
         {
             CreateSecretCodePaper();
         }
-        /*
-        int randNum = Random.Range(0, 2);
-        switch(randNum)
-        {
-            case 0:
-                CreateMorseCodePaper();
-                break;
-            case 1:
-                CreateSecretCodePaper();
-                break;
-        }*/
        
-        //GetComponent<Renderer>().material.color = Color.green;
 
         active = false;
         lerpStage = LerpStage.FirstLerp;
@@ -139,6 +150,7 @@ public class Printer : Station
         Deactivate();
     }
 
+    
     public override void Activate()
     {
         if (active)
@@ -165,6 +177,7 @@ public class Printer : Station
             return;
         }
         buttonSFX.Play();
+        StartCoroutine(ButtonMovement());
         active = true;
         //successPrint = radio.IsValuesCorrect();
         successPrint = (radio.IsAmplitudeInRange() && radio.IsFrequencyInRange());

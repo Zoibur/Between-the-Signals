@@ -43,6 +43,8 @@ public class Radio : Station
 
     GameObject focusTarget;
 
+    public GameObject[] lightButtons = new GameObject[2];
+
     //public GameObject uiButtons;
 
     [Header("Knobs")]
@@ -99,6 +101,7 @@ public class Radio : Station
         if(isRadioOn)
         {
             UpdateRadioWaves(currentAmp, currentFreq, currentLineRenderer);
+            CheckLightButtons();
         }
         //UpdateRadioWaves(targetAmp, targetFreq, targetLineRenderer);
 
@@ -120,7 +123,8 @@ public class Radio : Station
             UpdateKnobValues(ref currentFreq);
             UpdateSoundValues();
         }
-
+       
+       
     }
 
     /*
@@ -191,6 +195,24 @@ public class Radio : Station
         return isRadioOn;
     }
 
+    void CheckLightButtons()
+    {
+        if (IsAmplitudeInRange())
+        {
+            lightButtons[0].SetActive(true);
+        }
+        else { 
+            lightButtons[0].SetActive(false); 
+        }
+        if (IsFrequencyInRange())
+        {
+            lightButtons[1].SetActive(true);
+        }
+        else { 
+            lightButtons[1].SetActive(false); 
+        }
+    }
+
     public void NewRadioValues()
     {
         //targetAmp = Random.Range(MIN_AMPLITUDE, MAX_AMPLITUDE);
@@ -233,6 +255,8 @@ public class Radio : Station
         }
         else
         {
+            lightButtons[0].SetActive(false);
+            lightButtons[1].SetActive(false);
             noiseSFX.Stop();
             currentLineRenderer.enabled = false;
 

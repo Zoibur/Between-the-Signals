@@ -10,6 +10,8 @@ public class LightController : MonoBehaviour
     public Light light1;
     public Light light2;
 
+    public AudioClip audio;
+
     private IEnumerator Flicker()
     {
         float originalIntensity1 = light1.intensity;
@@ -32,6 +34,7 @@ public class LightController : MonoBehaviour
     private void OnEvent(EventManager.EventID eventID)
     {
         if (eventID == EventManager.EventID.LightFlicker && !isFlickering) {
+            AudioManager.instance.PlaySoundFXClip(audio, transform.GetChild(0).transform, 0.8f);
             StartCoroutine(Flicker());
         }
     }

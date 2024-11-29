@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private GameObject focusTarget;
     private GameObject currentFocusedTarget;
 
-
+    public AudioClip chairSFX;
 
     const string chairTag = "Chair";
     const string bedTag = "Bed";
@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour
                     case chairTag:
                         state = PlayerState.AtDesk;
                         OnPlayerStateChanged?.Invoke(this);
+                        AudioManager.instance.PlaySoundFXClip(chairSFX, focusTarget.transform, 0.1f);
                         break;
 
                     case bedTag:

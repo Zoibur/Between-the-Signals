@@ -35,7 +35,7 @@ public class MessageList
 
         actionWords[0] = "AIRSTRIKE";
         actionWords[1] = "FLANK";
-        actionWords[2] = "INFILTRATE";
+        actionWords[2] = "INFILTRATION";
         actionWords[3] = "AMBUSH";
 
         timeWords[0] = "MIDNIGHT";

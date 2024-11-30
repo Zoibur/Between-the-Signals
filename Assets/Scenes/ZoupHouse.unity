@@ -2425,7 +2425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &573018749
 Light:
   m_ObjectHideFlags: 0
@@ -2859,7 +2859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &712286452
 Light:
   m_ObjectHideFlags: 0
@@ -3105,6 +3105,9 @@ MonoBehaviour:
   decoder: {fileID: 1001007372}
   faxCenter: {x: -0.03, y: 1.6, z: 2.12}
   isMakingNoise: 0
+  lights:
+  - {fileID: 790470384}
+  - {fileID: 712286451}
 --- !u!65 &774185343
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3153,7 +3156,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &790470385
 Light:
   m_ObjectHideFlags: 0
@@ -3511,7 +3514,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &866109234
 Light:
   m_ObjectHideFlags: 0
@@ -8511,6 +8514,9 @@ MonoBehaviour:
   paperPrefab: {fileID: 3697121536556021106, guid: c39f13810d0c1bc45b957885322465e1, type: 3}
   printerCenter: {x: -0.15, y: 1.5, z: 4.5}
   redButton: {fileID: 430481504}
+  lights:
+  - {fileID: 866109233}
+  - {fileID: 573018748}
 --- !u!65 &1861369001
 BoxCollider:
   m_ObjectHideFlags: 0

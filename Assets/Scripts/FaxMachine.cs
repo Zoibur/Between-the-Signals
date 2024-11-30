@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class FaxMachine : Station
 {
@@ -16,11 +17,14 @@ public class FaxMachine : Station
 
     public Vector3 faxCenter;
     public bool isMakingNoise = false;
-    
+
+    Material[] materials;
+    public GameObject[] lights = new GameObject[2];
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        materials = GetComponent<Renderer>().sharedMaterials;
     }
 
     // Update is called once per frame
@@ -83,6 +87,7 @@ public class FaxMachine : Station
             GameManager.Instance.AddScore(1);
             Debug.Log("Values Match | Success");
             successSFX.Play();
+            StartCoroutine(PlayLight(2, 0.5f));
         }
         else
         {
@@ -91,6 +96,7 @@ public class FaxMachine : Station
             GameManager.Instance.DeductScore(1);
             Debug.Log("Values Doesnt Match | Failure");
             failSFX.Play();
+            StartCoroutine(PlayLight(1, 0.3f));
         }
         Debug.Log("The Correct Message: " + targetMessage + " | Player Input: " + inputMessage);
 
@@ -107,6 +113,7 @@ public class FaxMachine : Station
         if (!holdPaper)
         {
             failSFX.Play();
+            StartCoroutine(PlayLight(1, 0.3f));
             return;
         }
         originPos = holdPaper.transform.position;
@@ -130,6 +137,15 @@ public class FaxMachine : Station
     public override bool IsMakingNoise()
     {
         return isMakingNoise;
+    }
+
+    IEnumerator PlayLight(int lightSource, float time)
+    {
+        materials[lightSource].EnableKeyword("_EMISSION");
+        lights[lightSource - 1].SetActive(true);
+        yield return new WaitForSeconds(time);
+        materials[lightSource].DisableKeyword("_EMISSION");
+        lights[lightSource - 1].SetActive(false);
     }
 
     private void OnDrawGizmos()

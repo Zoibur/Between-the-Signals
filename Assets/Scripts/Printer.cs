@@ -30,11 +30,13 @@ public class Printer : Station
 
     //bool lerping = false;
     float lerpProgress = 0f;
+    Material[] materials;
+    public GameObject[] lights = new GameObject[2];
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        materials = GetComponent<Renderer>().sharedMaterials;
     }
 
     // Update is called once per frame
@@ -118,6 +120,7 @@ public class Printer : Station
         }
         workingSFX.Stop();
         successPrintSFX.Play();
+        StartCoroutine(PlayLight(2, 1f));
         Debug.Log("Success, Bogos Binted");
         // Instantiate Paper
         holdPaper = Instantiate(paperPrefab);
@@ -145,9 +148,19 @@ public class Printer : Station
     {
         // Fail Feedback
         Debug.Log("Failure, Printer Explodes");
+        StartCoroutine(PlayLight(1, 0.3f));
+
         failPrintSFX.Play();
         workingSFX.Stop();
         Deactivate();
+    }
+    IEnumerator PlayLight(int lightSource, float time)
+    {
+        materials[lightSource].EnableKeyword("_EMISSION");
+        lights[lightSource-1].SetActive(true);
+        yield return new WaitForSeconds(time);
+        materials[lightSource].DisableKeyword("_EMISSION");
+        lights[lightSource - 1].SetActive(false);
     }
 
     

@@ -68,7 +68,7 @@ public class HallwayGuy : MonoBehaviour
             }
 
             bool heard = !deaf && Vector3.Distance(self.transform.position, self.outsideDoorPosition) < self.hearingRadius;
-            if (heard && GameManager.Instance.IsNoiseAboveThreshold(2)) {
+            if (heard && GameManager.Instance.IsNoiseAboveThreshold(1)) {
                 self.ChangeState(new Alert(progress));
             }
         }

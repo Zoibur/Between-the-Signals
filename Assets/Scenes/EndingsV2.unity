@@ -214,7 +214,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Thanks For Playing
+  m_text: Thanks For Playing!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -927,7 +927,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1063,7 +1063,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2034,7 +2034,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2134,7 +2134,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1363056577}
+  m_Father: {fileID: 1533211359}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2334,7 +2334,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2818,50 +2818,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.03, y: 0.6, z: 0.55}
   m_Center: {x: -0.22, y: 1.73, z: -1.03}
---- !u!114 &1120129262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120129259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3a8d07872296904e9d634176ad569a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noiseSFX: {fileID: 0}
-  messageSFX: {fileID: 0}
-  buttonSFX: {fileID: 0}
-  morseClip: {fileID: 0}
-  mumblingClip: {fileID: 0}
-  interactUI:
-  - {fileID: 0}
-  - {fileID: 0}
-  lightButtons:
-  - {fileID: 0}
-  - {fileID: 0}
-  mode: 0
-  currentLineRenderer: {fileID: 96049605}
-  points: 60
-  xLimits: {x: 0, y: 1, z: 0}
-  waveEndX: 0.8
-  movementSpeed: 6
---- !u!114 &1120129263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120129259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c9846307e007c04a85c2bb0652196b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  focusFrom: {x: -0.3, y: 2, z: -2}
-  focusAt: {x: -0.3, y: 1.5, z: 0}
-  focusFOV: 60
 --- !u!1 &1128632833
 GameObject:
   m_ObjectHideFlags: 0
@@ -2931,7 +2887,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3353,6 +3309,9 @@ MonoBehaviour:
   decoder: {fileID: 0}
   faxCenter: {x: -0.03, y: 1.6, z: 2.12}
   isMakingNoise: 0
+  lights:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!65 &1239396357
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3508,7 +3467,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 726720286}
   - {fileID: 627999651}
   - {fileID: 1616693922}
   - {fileID: 1128632834}
@@ -3822,7 +3780,7 @@ MonoBehaviour:
   outcomeText: {fileID: 91090815}
   gulp: {fileID: 8300000, guid: af237ecf8c1a1ce49bdf09c7495d64e9, type: 3}
   thump: {fileID: 8300000, guid: 4c9d2f3bb23216744aeb03d69d7c880c, type: 3}
-  knock: {fileID: 0}
+  knock: {fileID: 8300000, guid: bfb9e589fd21c664bb810f4eb8f65cfa, type: 3}
   camDstRot: {x: 50, y: 90, z: 0}
   paperDstPos: {x: 0, y: 1.5, z: 3.4}
 --- !u!4 &1499040864
@@ -3935,6 +3893,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1078016147}
+  - {fileID: 726720286}
   - {fileID: 1363056577}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4028,13 +3987,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6314893380661927027, guid: 9206c95a1bb92e642a1e30e685832412, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1120129262}
-    - targetCorrespondingSourceObject: {fileID: 6314893380661927027, guid: 9206c95a1bb92e642a1e30e685832412, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1120129261}
-    - targetCorrespondingSourceObject: {fileID: 6314893380661927027, guid: 9206c95a1bb92e642a1e30e685832412, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1120129263}
     - targetCorrespondingSourceObject: {fileID: 2772106638245708465, guid: 9206c95a1bb92e642a1e30e685832412, type: 3}
       insertIndex: -1
       addedObject: {fileID: 60498096}
@@ -4371,7 +4324,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -4488,10 +4441,14 @@ MonoBehaviour:
   workingSFX: {fileID: 0}
   failPrintSFX: {fileID: 0}
   buttonSFX: {fileID: 0}
-  radio: {fileID: 1120129262}
+  radio: {fileID: 0}
   decoder: {fileID: 0}
   paperPrefab: {fileID: 3697121536556021106, guid: c39f13810d0c1bc45b957885322465e1, type: 3}
   printerCenter: {x: -0.15, y: 1.5, z: 4.5}
+  redButton: {fileID: 0}
+  lights:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!65 &1664557434
 BoxCollider:
   m_ObjectHideFlags: 0

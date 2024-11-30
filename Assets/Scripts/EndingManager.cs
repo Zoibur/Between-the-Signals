@@ -48,6 +48,9 @@ public class EndingManager : MonoBehaviour
     Vector3 paperOriRot;
     Vector3 paperDstRot;
 
+
+    Vector3 camLookDoor = new Vector3(0f, 269f, 0f);
+
     //float timePerDev = 3f;
   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -75,11 +78,11 @@ public class EndingManager : MonoBehaviour
         {
             case 1:
                 newsPaper.GetComponentInChildren<TextMeshPro>().text = "The War is Won!\nThe Goverment is now cleansing the captial from any hiding spies.";
-                outcomeText.text = "After the war, you had no other choice than to kill yourself before the goverment caught you.";
+                outcomeText.text = "As the war ended, you had no other choice but to kill yourself before the goverment could catch you.";
                 break;
             case 2:
                 newsPaper.GetComponentInChildren<TextMeshPro>().text = "The War is Over!\nOur Great Nation has been Annexed.";
-                outcomeText.text = "After the war, a rescue squad enter the city to escort you home to your loving wife and child. You were celebrated as a hero.";
+                outcomeText.text = "As the war ended, a rescue squad enter the city to escort you home to your loving wife and child. You were celebrated as a hero.";
                 break;
         }
 
@@ -89,8 +92,12 @@ public class EndingManager : MonoBehaviour
 
     IEnumerator StartCutscene()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(8f);
         state = EndingState.Cutscene;
+        if (ending == 2)
+        {
+            AudioManager.instance.PlaySoundFXClip(knock, transform, 0.8f);
+        }
     }
     // Update is called once per frame
     void Update()
@@ -100,29 +107,67 @@ public class EndingManager : MonoBehaviour
             case EndingState.PreCutscene:
                 break;
             case EndingState.Cutscene:
-                switch (ending)
-                {
-                    case 1:
-                        UpdateEndingOne();
-                        break;
-                    case 2:
-                        UpdateEndingTwo();
-                        break;
-                }
+                UpdateCutscene();
                 break;
             case EndingState.Credits:
-                if (Input.anyKeyDown)
-                {
-                    if (skipText.gameObject.activeSelf)
-                    {
-                        SceneManager.LoadScene(0);
-                    }
-                    skipText.gameObject.SetActive(true);
-                }
+                UpdateCredit();
                 break;
         }
     }
-    
+    void UpdateCredit()
+    {
+        credits.playbackTime += Time.deltaTime;
+        if (!Input.anyKeyDown)
+        {
+            return;
+        }
+        if (skipText.gameObject.activeSelf)
+        {
+            if (credits.playbackTime > 17f)
+            {
+                SceneManager.LoadScene(0);
+
+            }
+            else
+            {
+                credits.playbackTime = 17f;
+            }
+
+            //StartCoroutine(ActivateCredits());
+        }
+        skipText.gameObject.SetActive(true);
+
+    }
+    void UpdateCutscene()
+    {
+       
+        switch (ending)
+        {
+            case 1:
+                UpdateEndingOne();
+                break;
+            case 2:
+                UpdateEndingTwo();
+                break;
+        }
+        if (Input.anyKeyDown)
+        {
+            if (!skipText.gameObject.activeSelf)
+            {
+                skipText.gameObject.SetActive(true);
+                return;
+            }
+            switch (ending)
+            {
+                case 1:
+                    StartCoroutine(EndCutsceneOne());
+                    break;
+                case 2:
+                    StartCoroutine(EndCutsceneTwo());
+                    break;
+            }
+        }
+    }
     void UpdateEndingOne()
     {
         stageProgress += Time.deltaTime * progressSpeed;
@@ -153,26 +198,57 @@ public class EndingManager : MonoBehaviour
             case 5:
                 // Load Credits
                 //StartCoroutine(LoadCredits());
-                StartCoroutine(EndCutscene());
+                StartCoroutine(EndCutsceneOne());
                 break;
         }
     }
 
     void UpdateEndingTwo()
     {
-        
+        stageProgress += Time.deltaTime * progressSpeed;
+        if (stageProgress > 1f)
+        {
+            stageProgress = 0f;
+            currentStage++;
+           
+           
+        }
+        switch(currentStage)
+        {
+            case 1:
+                newsPaper.transform.position = Vector3.Lerp(paperOriPos, paperDstPos, stageProgress);
+                newsPaper.transform.rotation = Quaternion.Lerp(Quaternion.Euler(paperOriRot), Quaternion.Euler(paperDstRot), stageProgress);
+                break;
+            case 2:
+                cam.transform.rotation = Quaternion.Lerp(Quaternion.Euler(camOriRot), Quaternion.Euler(camLookDoor), stageProgress);
+                break;
+            case 3:
+                StartCoroutine(EndCutsceneTwo());
+                break;
+
+        }
+     
     }
 
    
-    IEnumerator EndCutscene()
+    IEnumerator EndCutsceneOne()
     {
         state = EndingState.Credits;
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(2f);
         AudioManager.instance.PlaySoundFXClip(gulp, transform, 1f);
         yield return new WaitForSeconds(3f);
-        AudioManager.instance.PlaySoundFXClip(thump, transform, 0.8f);
+        AudioManager.instance.PlaySoundFXClip(thump, transform, 0.4f);
         yield return new WaitForSeconds(1f);
+        StartCoroutine(ActivateCredits());
+    }
+    IEnumerator EndCutsceneTwo()
+    {
+        state = EndingState.Credits;
+        transition.SetTrigger("Start");
+      //  yield return new WaitForSeconds(1f);
+        
+        yield return new WaitForSeconds(2f);
         StartCoroutine(ActivateCredits());
     }
 
@@ -180,7 +256,8 @@ public class EndingManager : MonoBehaviour
     {
         credits.transform.gameObject.SetActive(true);
         credits.SetTrigger("Start");
-        yield return new WaitForSeconds(20f);
+        credits.StartPlayback();
+        yield return new WaitForSeconds(33f);
         SceneManager.LoadScene(0);
     }
     /*

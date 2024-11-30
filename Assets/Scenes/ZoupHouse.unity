@@ -14753,6 +14753,10 @@ PrefabInstance:
       value: SetMusicVolume
       objectReference: {fileID: 0}
     - target: {fileID: 8199209076763414700, guid: 909d021b31a346e439ce790047bc0c6a, type: 3}
+      propertyPath: m_text
+      value: Help
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199209076763414700, guid: 909d021b31a346e439ce790047bc0c6a, type: 3}
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: 9599c5fa479b40446b7430cbaaeeea4f, type: 2}

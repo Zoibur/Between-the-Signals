@@ -16,6 +16,18 @@ public class Paper : MonoBehaviour
     //string blankMessage = string.Empty;
 
     int currentIndex = 0;
+
+    bool isMorse = false;
+
+    public bool IsMorse()
+    {
+        return isMorse;
+    }
+
+    public void SetIsMorse(bool newValue)
+    {
+        isMorse = newValue;
+    }
     void Start()
     {
         // tmp = GetComponentInChildren<TextMeshPro>();

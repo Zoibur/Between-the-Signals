@@ -84,8 +84,10 @@ public class FaxMachine : Station
         {
             // If values are correct
             // Green light
-            GameManager.Instance.AddScore(1);
-            Debug.Log("Values Match | Success");
+            int scoreAmount = (holdPaper.GetComponent<Paper>().IsMorse()) ? 3 : 1 ;
+           
+            GameManager.Instance.AddScore(scoreAmount);
+            Debug.Log("Values Match | Success | Score To ADD: " + scoreAmount.ToString());
             successSFX.Play();
             StartCoroutine(PlayLight(2, 0.5f));
         }

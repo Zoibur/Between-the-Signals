@@ -60,13 +60,16 @@ public class NewsPaper : MonoBehaviour
         string todaysNews = "";
         if (playerSuccess > 0)
         {
-            todaysNews += (playerSuccess * m).ToString() + " Civilians Saved in Attack!";
+            todaysNews += (playerSuccess * m).ToString() + " Civilians Saved in Attack!\n";
         }
-        if (playerFails == 0)
+        if (playerFails == 0 && playerSuccess == 0)
         {
             playerFails = 2;
         }
-        todaysNews += (playerFails * m).ToString() + " Civilians Dead in Attack!";
+        if (playerFails > 0)
+        {
+            todaysNews += (playerFails * m).ToString() + " Civilians Dead in Attack!";
+        }
         //int result = playerScore * 500;
         originPos = transform.position;
 

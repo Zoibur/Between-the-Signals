@@ -230,6 +230,8 @@ public class Printer : Station
         secretMessage = messageList.GenerateMorseCode(secretMessage);
         paperScript.SetCodeMessage(secretMessage);
 
+        paperScript.SetIsMorse(true);
+
         float yChange = holdPaper.transform.localScale.y;
         holdPaper.transform.position = new Vector3(holdPaper.transform.position.x, holdPaper.transform.position.y + yChange, holdPaper.transform.position.z);
 
@@ -243,6 +245,8 @@ public class Printer : Station
         paperScript.SetInputMessage(messageList.GenerateBlank(secretMessage));
         secretMessage = messageList.GenerateSecretMessage(secretMessage);
         paperScript.SetCodeMessage(secretMessage);
+
+        paperScript.SetIsMorse(false);
 
         float yChange = holdPaper.transform.localScale.y;
         holdPaper.transform.position = new Vector3(holdPaper.transform.position.x, holdPaper.transform.position.y + yChange, holdPaper.transform.position.z);

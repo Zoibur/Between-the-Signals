@@ -37,7 +37,7 @@ public class Radio : Station
 
     bool isMorse = false;
 
-    public GameObject[] interactUI = new GameObject[2];
+    public GameObject[] interactUI = new GameObject[3];
     //float changeAmpValueAmount = 5f;
     //float changeFreqValueAmount = 5f;
 
@@ -183,6 +183,7 @@ public class Radio : Station
         }
         interactUI[0].SetActive(false);
         interactUI[1].SetActive(false);
+        interactUI[2].SetActive(false);
     }
 
     public override bool IsZoomer()
@@ -272,6 +273,7 @@ public class Radio : Station
 
             knobTarget.GetComponent<Renderer>().material.color = Color.white;
             interactUI[1].SetActive(false);
+            interactUI[2].SetActive(false);
             knobTarget = null;
             mode = KnobMode.None;
             
@@ -288,9 +290,19 @@ public class Radio : Station
         knobTarget = focusTarget.transform;
         mode = (knobTarget.tag == "AmplitudeKnob") ? KnobMode.AmplitudeOn : KnobMode.FrequencyOn;
         knobTarget.GetComponent<Renderer>().material.color = Color.red;
-        interactUI[1].SetActive(true);
+        
         interactUI[0].SetActive(false);
-        beforeValue = (mode == KnobMode.AmplitudeOn) ? currentAmp : currentFreq;
+        //beforeValue = (mode == KnobMode.AmplitudeOn) ? currentAmp : currentFreq;
+        if(mode == KnobMode.AmplitudeOn)
+        {
+            interactUI[1].SetActive(true);
+            beforeValue = currentAmp;
+        }
+        else
+        {
+            interactUI[2].SetActive(true);
+            beforeValue = currentFreq;
+        }
         // Other stuff
     }
     private void FixedUpdate()

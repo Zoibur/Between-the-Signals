@@ -22,6 +22,10 @@ public class MainMenuManager : MonoBehaviour
     void Start()
     {
         PlayerPrefs.SetInt("PlayerScore", 0);
+        //PlayerPrefs.SetFloat("MasterVolumePref", 0.5f);
+        //PlayerPrefs.SetFloat("SFXVolumePref", 0.5f);
+        //PlayerPrefs.SetFloat("MusicVolumePref", 0.5f);
+        /*
         highestLevelReached = PlayerPrefs.GetInt("HighestLevelReached");
         if(highestLevelReached == 0 )
         {
@@ -31,6 +35,7 @@ public class MainMenuManager : MonoBehaviour
         {
             levelButtons[i].interactable = (i <= highestLevelReached);
         }
+        */
     }
 
     // Update is called once per frame
@@ -40,11 +45,13 @@ public class MainMenuManager : MonoBehaviour
         float rotateValue = 85f + halfRange + Mathf.Sin(Time.timeSinceLevelLoad) * halfRange;
         lampObject.transform.rotation = Quaternion.Euler(rotateValue, 0f, 0f);
 
+        /*
         if(Input.GetKeyDown("r"))
         {
             PlayerPrefs.SetInt("HighestLevelReached", 0);
             loadLevelsButton.interactable = false;
         }
+        */
     }
 
     public void ShowLoadLevels()

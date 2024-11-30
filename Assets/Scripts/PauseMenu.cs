@@ -4,6 +4,9 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject menu;
     public GameObject quitMenu;
+    public GameObject settingsMenu;
+    public GameObject tutorialMenu;
+    public GameObject crossHair;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -36,6 +39,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        crossHair.SetActive(true);
     }
 
     public void Pause()
@@ -44,6 +48,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        crossHair.SetActive(false);
     }
 
     public void GoToMainMenu()
@@ -64,5 +69,23 @@ public class PauseMenu : MonoBehaviour
     public void CloseQuitMenu()
     {
         quitMenu.SetActive(false);
+    }
+    public void OpenSettings()
+    {
+        settingsMenu.SetActive(true);
+        //menu.SetActive(false);
+    }
+
+    public void OpenTutorial()
+    {
+        tutorialMenu.SetActive(true);
+        //menu.SetActive(false);
+    }
+
+    public void GoBack()
+    {
+        //menu.SetActive(true);
+        tutorialMenu.SetActive(false);
+        settingsMenu.SetActive(false);
     }
 }

@@ -31,7 +31,7 @@ public class HallwayGuy : MonoBehaviour
 
     private class Patrolling : IState
     {
-        int noiseThreshhold = 1;
+        
         public string ID => "Patrolling";
         
         private float progress;
@@ -68,7 +68,7 @@ public class HallwayGuy : MonoBehaviour
             }
 
             bool heard = !deaf && Vector3.Distance(self.transform.position, self.outsideDoorPosition) < self.hearingRadius;
-            if (heard && GameManager.Instance.IsNoiseAboveThreshold(noiseThreshhold)) {
+            if (heard && GameManager.Instance.IsNoiseAboveThreshold(2)) {
                 self.ChangeState(new Alert(progress));
             }
         }

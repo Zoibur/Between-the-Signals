@@ -1899,6 +1899,50 @@ MonoBehaviour:
   TestFireEventID: 0
   minEventInterval: 5
   maxEventInterval: 9
+  days:
+  - intervalMin: 15
+    intervalMax: 30
+    weights:
+    - eventID: 2
+      weight: 15
+    - eventID: 4
+      weight: 60
+  - intervalMin: 15
+    intervalMax: 25
+    weights:
+    - eventID: 2
+      weight: 20
+    - eventID: 4
+      weight: 50
+    - eventID: 3
+      weight: 15
+  - intervalMin: 12
+    intervalMax: 20
+    weights:
+    - eventID: 2
+      weight: 30
+    - eventID: 4
+      weight: 50
+    - eventID: 3
+      weight: 35
+  - intervalMin: 10
+    intervalMax: 17
+    weights:
+    - eventID: 2
+      weight: 30
+    - eventID: 0
+      weight: 50
+    - eventID: 3
+      weight: 50
+  - intervalMin: 8
+    intervalMax: 12
+    weights:
+    - eventID: 2
+      weight: 30
+    - eventID: 4
+      weight: 50
+    - eventID: 3
+      weight: 60
 --- !u!4 &440576821
 Transform:
   m_ObjectHideFlags: 0

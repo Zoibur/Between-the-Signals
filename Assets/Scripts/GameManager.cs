@@ -45,7 +45,11 @@ public class GameManager : MonoBehaviour
         // Add level exclusive objects
     }
 
-
+    public int GetCurrentLevel()
+    {
+        return currentLevel;
+    }
+    
     public void AddScore(int amount)
     {
         if (amount <= 0)

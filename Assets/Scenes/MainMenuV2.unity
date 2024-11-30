@@ -4611,6 +4611,9 @@ MonoBehaviour:
   decoder: {fileID: 0}
   faxCenter: {x: -0.03, y: 1.6, z: 2.12}
   isMakingNoise: 0
+  lights:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!65 &1239396357
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6120,6 +6123,9 @@ MonoBehaviour:
   paperPrefab: {fileID: 3697121536556021106, guid: c39f13810d0c1bc45b957885322465e1, type: 3}
   printerCenter: {x: -0.15, y: 1.5, z: 4.5}
   redButton: {fileID: 0}
+  lights:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!65 &1664557434
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12677,10 +12683,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

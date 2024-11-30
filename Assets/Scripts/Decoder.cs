@@ -159,15 +159,17 @@ public class Decoder : Station
             return;
         }
 
-        holdTool = focusTarget;
-        toolOriginPos = holdTool.transform.position;
-        holdTool.transform.position = _camera.transform.position + (_camera.transform.forward * 0.5f) + (-_camera.transform.right * 0.2f);
+        if (focusTarget) {
+            holdTool = focusTarget;
+            toolOriginPos = holdTool.transform.position;
+            holdTool.transform.position = _camera.transform.position + (_camera.transform.forward * 0.5f) + (-_camera.transform.right * 0.2f);
 
-        if (holdTool == holdPaper)
-        {
-            Debug.Log("Tool is Paper");
-            inputField.gameObject.SetActive(true);
-            inputField.ActivateInputField();
+            if (holdTool == holdPaper)
+            {
+                Debug.Log("Tool is Paper");
+                inputField.gameObject.SetActive(true);
+                inputField.ActivateInputField();
+            }
         }
     }
 

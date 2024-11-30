@@ -13,9 +13,14 @@ public class DeathManager : MonoBehaviour
     public GameObject guy;
     public CinemachineVirtualCamera POVCamera;
     public AudioClip doorBreakSound;
-    public GameObject screenBlocker;
+    //public GameObject screenBlocker;
+    public Animator deathScreen;
     public Text deathText;
-    
+
+    public AudioClip punchInitSFX;
+    public AudioClip punchCineSFX;
+
+
     public void Awake()
     {
         Instance = this;
@@ -29,12 +34,16 @@ public class DeathManager : MonoBehaviour
         
         guy.SetActive(true);
         POVCamera.gameObject.SetActive(true);
+        AudioManager.instance.PlaySoundFXClip(punchInitSFX, guy.transform, 0.1f);
+        AudioManager.instance.PlaySoundFXClip(punchCineSFX, guy.transform, 0.1f);
+
         yield return new WaitForSeconds(0.65f);
+
+        //screenBlocker.SetActive(true);
+        deathScreen.SetTrigger("Dead");
+        deathText.text = "GAME OVER!";
         
-        screenBlocker.SetActive(true);
-        deathText.text = "You died :(";
-        
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(3.0f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     

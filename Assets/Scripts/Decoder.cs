@@ -17,6 +17,8 @@ public class Decoder : Station
     GameObject focusTarget;
     public GameObject interactUI;
 
+    public AudioSource slidingSFX; 
+
     // Paper Lerping
     bool lerping = false;
     float lerpProgress = 0f;
@@ -81,11 +83,13 @@ public class Decoder : Station
         lerpProgress = 0f;
         originPos = paper.transform.position;
         originRot = paper.transform.rotation;
+        slidingSFX.Play();
     }
 
     public GameObject TakePaper()
     {
         GameObject temp = holdPaper;
+        slidingSFX.Play();
         holdPaper = null;
         return temp;
     }

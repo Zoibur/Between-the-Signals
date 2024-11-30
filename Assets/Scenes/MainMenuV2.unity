@@ -3501,7 +3501,7 @@ MonoBehaviour:
 
     Programmer
 
-    Scrummaster'
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9599c5fa479b40446b7430cbaaeeea4f, type: 2}
   m_sharedMaterial: {fileID: 7116458693091689065, guid: 9599c5fa479b40446b7430cbaaeeea4f, type: 2}
@@ -7583,9 +7583,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Oliwer Davidsson
 
-    Game Artist
+    Artist
 
-    Product Owner
 
 '
   m_isRightToLeft: 0

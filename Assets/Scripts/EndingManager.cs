@@ -30,6 +30,8 @@ public class EndingManager : MonoBehaviour
     public AudioClip thump;
     public AudioClip knock;
 
+    bool hasSkipped = false;
+
 
     // Cutscene
     int currentStage = 0;
@@ -78,11 +80,11 @@ public class EndingManager : MonoBehaviour
         {
             case 1:
                 newsPaper.GetComponentInChildren<TextMeshPro>().text = "The War is Won!\nThe Goverment is now cleansing the captial from any hiding spies.";
-                outcomeText.text = "As the war ended, you had no other choice but to kill yourself before the goverment could catch you.";
+                outcomeText.text = "Bad Ending";//outcomeText.text = "As the war ended, you had no other choice but to kill yourself before the goverment could catch you.";
                 break;
             case 2:
                 newsPaper.GetComponentInChildren<TextMeshPro>().text = "The War is Over!\nOur Great Nation has been Annexed.";
-                outcomeText.text = "As the war ended, a rescue squad enter the city to escort you home to your loving wife and child. You were celebrated as a hero.";
+                outcomeText.text = "As the war ended, a rescue squad enters the city to escort you home to your loving wife and child. You were celebrated as a hero.";
                 break;
         }
 
@@ -116,24 +118,23 @@ public class EndingManager : MonoBehaviour
     }
     void UpdateCredit()
     {
-        credits.playbackTime += Time.deltaTime;
+       
         if (!Input.anyKeyDown)
         {
             return;
         }
         if (skipText.gameObject.activeSelf)
         {
-            if (credits.playbackTime > 17f)
+            if(hasSkipped)
             {
                 SceneManager.LoadScene(0);
-
             }
             else
             {
-                credits.playbackTime = 17f;
-            }
 
-            //StartCoroutine(ActivateCredits());
+            credits.SetTrigger("Skip");
+                hasSkipped = true;
+            }
         }
         skipText.gameObject.SetActive(true);
 
@@ -256,7 +257,7 @@ public class EndingManager : MonoBehaviour
     {
         credits.transform.gameObject.SetActive(true);
         credits.SetTrigger("Start");
-        credits.StartPlayback();
+        //credits.StartPlayback();
         yield return new WaitForSeconds(33f);
         SceneManager.LoadScene(0);
     }

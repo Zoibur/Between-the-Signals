@@ -4135,8 +4135,8 @@ MonoBehaviour:
   stations:
   - {fileID: 1120129262}
   - {fileID: 1001007372}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1861369000}
+  - {fileID: 774185342}
   successScore: 0
   levelTransition: {fileID: 1078016149}
   dayText: {fileID: 1354582568}

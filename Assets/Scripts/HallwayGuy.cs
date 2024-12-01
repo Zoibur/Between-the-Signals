@@ -115,7 +115,8 @@ public class HallwayGuy : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             
             Debug.Log("Sequence: Knock on door...");
-            AudioManager.instance.PlaySoundFXClip(self.knockingSound, self.transform, 1.0f);
+            AudioManager.instance.PlaySoundFXClip(self.knockingSound, self.transform, 0.7f);
+            self.heartBeatSound.Play();
             yield return new WaitForSeconds(5.0f);
             
             Debug.Log("Sequence: Check if making any noise...");
@@ -129,7 +130,7 @@ public class HallwayGuy : MonoBehaviour
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-
+            self.heartBeatSound.Stop();
             Debug.Log("Huh, must have been my imagination...");
             self.ChangeState(new Patrolling(0.55f, true));
             
@@ -163,6 +164,7 @@ public class HallwayGuy : MonoBehaviour
     public float hearingRadius = 4.5f;
     
     public AudioClip knockingSound;
+    public AudioSource heartBeatSound;
     
     private IState state;
     

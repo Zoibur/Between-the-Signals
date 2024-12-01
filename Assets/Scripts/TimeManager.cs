@@ -6,6 +6,11 @@ public class TimeManager : MonoBehaviour
 {
 
     public static event Action<int, int> OnClockChange;
+    public AudioSource audioAlarm;
+    public AudioSource audioTimer;
+    
+   
+    bool timerOn = false;
     
     public int increment = 15;
     public float secondsPerIncrement = 7.5f;
@@ -15,9 +20,9 @@ public class TimeManager : MonoBehaviour
     
     private float time = 0.0f;
 
-    public int realMinutesPerDay = 5;
+    public int realMinutesPerDay = 1;
     public int startHour = 8;
-    public int endHour = 23;
+    public int endHour = 24;
     
     private void Start()
     {
@@ -29,7 +34,7 @@ public class TimeManager : MonoBehaviour
         int hoursPerDay = endHour - startHour;
         int incrementsPerDay = (60 / increment) * hoursPerDay;
         int incrementsPerRealMin = incrementsPerDay / realMinutesPerDay;
-        secondsPerIncrement = 60 / incrementsPerRealMin;
+        secondsPerIncrement = 60f / incrementsPerRealMin;
 
 
         StartCoroutine(ClockLoop());
@@ -51,9 +56,17 @@ public class TimeManager : MonoBehaviour
         minute += increment;
         if (minute >= 60) {
             hour++;
-            if (hour >= 23) {
-                //hour = 0;
+            if (hour >= endHour) {
+                hour = 0;
+                audioAlarm.Play();
+                audioTimer.Stop();
                 StartCoroutine(GameManager.Instance.LoadNextDay());
+            }
+
+            if (!timerOn && hour >= endHour - 1)
+            {
+                timerOn = true;
+                audioTimer.Play();
             }
                 
             /* we'll modulo since if we use an increment like 25, we'll need to set the minutes to non-zero;

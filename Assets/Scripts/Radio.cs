@@ -232,7 +232,7 @@ public class Radio : Station
         } while (IsAmplitudeInRange() || IsFrequencyInRange());
 
         int randNum = Random.Range(1, 101);
-        isMorse = (randNum > 65);
+        isMorse = (randNum > 50);
 
         messageSFX.clip = (isMorse) ? morseClip : mumblingClip;
 

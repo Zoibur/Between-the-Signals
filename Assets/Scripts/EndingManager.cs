@@ -68,7 +68,7 @@ public class EndingManager : MonoBehaviour
         paperOriRot = newsPaper.transform .rotation.eulerAngles;
         paperDstRot = new Vector3(0f, 0f, -90f);
 
-        int maxScore = 5;
+        int maxScore = 15;
         int playerScore = PlayerPrefs.GetInt("PlayerScore");
 
         ending = (playerScore < maxScore) ? 1 : 2;

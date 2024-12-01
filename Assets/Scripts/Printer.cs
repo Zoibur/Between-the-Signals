@@ -37,6 +37,12 @@ public class Printer : Station
     void Start()
     {
         materials = GetComponent<Renderer>().sharedMaterials;
+        
+        materials[1].DisableKeyword("_EMISSION");
+        lights[0].SetActive(false);
+        
+        materials[2].DisableKeyword("_EMISSION");
+        lights[1].SetActive(false);
     }
 
     // Update is called once per frame

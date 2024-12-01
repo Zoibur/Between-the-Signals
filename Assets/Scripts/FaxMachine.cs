@@ -25,6 +25,12 @@ public class FaxMachine : Station
     void Start()
     {
         materials = GetComponent<Renderer>().sharedMaterials;
+        
+        materials[1].DisableKeyword("_EMISSION");
+        lights[0].SetActive(false);
+        
+        materials[2].DisableKeyword("_EMISSION");
+        lights[1].SetActive(false);
     }
 
     // Update is called once per frame
@@ -84,7 +90,7 @@ public class FaxMachine : Station
         {
             // If values are correct
             // Green light
-            int scoreAmount = (holdPaper.GetComponent<Paper>().IsMorse()) ? 3 : 1 ;
+            int scoreAmount = (holdPaper.GetComponent<Paper>().IsMorse()) ? 2 : 1 ;
            
             GameManager.Instance.AddScore(scoreAmount);
             Debug.Log("Values Match | Success | Score To ADD: " + scoreAmount.ToString());

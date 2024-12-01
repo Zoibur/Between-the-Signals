@@ -14,14 +14,43 @@ public class MessageList
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public MessageList()
     {
-        morsecodes.Add("SHIPMENT 56 32 5AM");
-        morsecodes.Add("RALLYPOINT 12 46 6PM");
-        morsecodes.Add("SPIES LECH 5");
-        morsecodes.Add("MISSILE KOP 8AM");
-        //morsecodes.Add("REI NO PL");
-        //morsecodes.Add("FL BU");
-        //morsecodes.Add("SUP PLY");
-        //morsecodes.Add("TE ST");
+        morsecodes.Add("MARK RUSH 588 944");
+        morsecodes.Add("ARMY BASE 9AM");
+        morsecodes.Add("AMMO AID MAIN CITY");
+        morsecodes.Add("SPY COUP HUSH");
+        morsecodes.Add("KILL FOE WEST");
+        morsecodes.Add("ARMY BASE WIPE");
+        morsecodes.Add("LOOT 408 718");
+        morsecodes.Add("BASE WIPE 896 232");
+        morsecodes.Add("JAM BASE SPY");
+        morsecodes.Add("RIOT WEST CITY");
+        morsecodes.Add("BOMB 594 921");
+        morsecodes.Add("KILL SPY 7AM");
+        morsecodes.Add("ARMY BASE 794 912");
+        morsecodes.Add("OPS TASK KILL SPY");
+        morsecodes.Add("KILL RANK FOE EAST");
+        morsecodes.Add("AID 849 189");
+        morsecodes.Add("RAID CITY 782 899");
+        morsecodes.Add("RAIN HELL HOME");
+        morsecodes.Add("JAM CODE HUSH");
+        morsecodes.Add("RAID HQ 149 495");
+        morsecodes.Add("BOMB HQ 149 495");
+        morsecodes.Add("FIND THE SPY");
+        morsecodes.Add("HIDE THE DEAD");
+        morsecodes.Add("FIND 501 245");
+        morsecodes.Add("BOMB KEY 694 129");
+        morsecodes.Add("MOVE THE BOMB");
+        morsecodes.Add("SEEK OUT OUR ALLY");
+        morsecodes.Add("TRAP 717 792");
+        morsecodes.Add("SAFE ZONE 801 791");
+        morsecodes.Add("KILL ZONE 359 495");
+        morsecodes.Add("HELP ARMY BASE");
+        
+
+
+        // ARMY BASE BOMB FOE AID SPY KILL OPS CODE MARK TASK CAMO JAM MINE RUSH WIPE COUP  RANK RIOT AMMO 
+       
+      
 
         sideWords[0] = "NORTH";
         sideWords[1] = "EAST";
@@ -133,7 +162,7 @@ public class MessageList
         {
             if (c == ' ')
             {
-                buffer += " | ";
+                buffer += "\n";
                 continue;
             }
 

@@ -21,6 +21,8 @@ public class MainMenuManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        PlayerPrefs.SetInt("TotalFailures", 0);
+        PlayerPrefs.SetInt("TotalSuccess", 0);
         PlayerPrefs.SetInt("PlayerScore", 0);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

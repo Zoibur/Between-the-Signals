@@ -71,6 +71,9 @@ public class EndingManager : MonoBehaviour
         int maxScore = 15;
         int playerScore = PlayerPrefs.GetInt("PlayerScore");
 
+        int deadPeople = PlayerPrefs.GetInt("TotalFailures") * 500;
+        int alivePeople = PlayerPrefs.GetInt("TotalSuccess") * 500;
+
         ending = (playerScore < maxScore) ? 1 : 2;
 
         Debug.Log("PlayerScore: " + playerScore.ToString() + " | Ending: " + ending.ToString());
@@ -80,11 +83,13 @@ public class EndingManager : MonoBehaviour
         {
             case 1:
                 newsPaper.GetComponentInChildren<TextMeshPro>().text = "The War is Won!\nThe Goverment is now cleansing the captial from any hiding spies.";
-                outcomeText.text = "Bad Ending";//outcomeText.text = "As the war ended, you had no other choice but to kill yourself before the goverment could catch you.";
+                outcomeText.text = "Bad Ending\n\nDespite your effort, you managed to save: "
+                    + alivePeople.ToString() + " Civilians.\n"+ deadPeople + " Civilians died because of you.";//outcomeText.text = "As the war ended, you had no other choice but to kill yourself before the goverment could catch you.";
                 break;
             case 2:
                 newsPaper.GetComponentInChildren<TextMeshPro>().text = "The War is Over!\nOur Great Nation has been Annexed.";
-                outcomeText.text = "As the war ended, a rescue squad enters the city to escort you home to your loving wife and child. You were celebrated as a hero.";
+                outcomeText.text = "As the war ended, a rescue squad enters the city to escort you home to your loving wife and child. You were celebrated as a hero.\n\nDuring your mission, you managed to save: " 
+                    + alivePeople.ToString() + " Civilians.\n" + deadPeople + " Civilians died because of you.";
                 break;
         }
 

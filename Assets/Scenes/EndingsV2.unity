@@ -3287,27 +3287,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -2513543964930453107, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
   m_PrefabInstance: {fileID: 1575740080}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1239396356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1239396352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42483b905525e3740b43272732f51d64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  successSFX: {fileID: 0}
-  workingSFX: {fileID: 0}
-  failSFX: {fileID: 0}
-  decoder: {fileID: 0}
-  faxCenter: {x: -0.03, y: 1.6, z: 2.12}
-  isMakingNoise: 0
-  lights:
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!65 &1239396357
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4128,15 +4107,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8549403022290207516, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1664557434}
-    - targetCorrespondingSourceObject: {fileID: 8549403022290207516, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1664557433}
     - targetCorrespondingSourceObject: {fileID: -2513543964930453107, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1239396357}
-    - targetCorrespondingSourceObject: {fileID: -2513543964930453107, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1239396356}
   m_SourcePrefab: {fileID: 100100000, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
 --- !u!1001 &1611033335
 PrefabInstance:
@@ -4421,30 +4394,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8549403022290207516, guid: 6a4a4ca90ba6f0f4f893c941a23413b3, type: 3}
   m_PrefabInstance: {fileID: 1575740080}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1664557433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1664557429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fb1d60bff3c1134f9a9157c694b7e9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  successPrintSFX: {fileID: 0}
-  workingSFX: {fileID: 0}
-  failPrintSFX: {fileID: 0}
-  buttonSFX: {fileID: 0}
-  radio: {fileID: 0}
-  decoder: {fileID: 0}
-  paperPrefab: {fileID: 3697121536556021106, guid: c39f13810d0c1bc45b957885322465e1, type: 3}
-  printerCenter: {x: -0.15, y: 1.5, z: 4.5}
-  redButton: {fileID: 0}
-  lights:
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!65 &1664557434
 BoxCollider:
   m_ObjectHideFlags: 0

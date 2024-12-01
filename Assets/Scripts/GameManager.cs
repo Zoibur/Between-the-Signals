@@ -117,6 +117,10 @@ public class GameManager : MonoBehaviour
 
         PlayerPrefs.SetInt("PreviousSuccess", successScore);
         PlayerPrefs.SetInt("PreviousFailures", failScore);
+
+        PlayerPrefs.SetInt("TotalSuccess", PlayerPrefs.GetInt("TotalSuccess") + successScore);
+        PlayerPrefs.SetInt("TotalFailures", PlayerPrefs.GetInt("TotalFailures") + failScore);
+
         PlayerPrefs.SetInt("PlayerScore", PlayerPrefs.GetInt("PlayerScore") + (successScore - failScore));
         SceneManager.LoadScene(index);
     }

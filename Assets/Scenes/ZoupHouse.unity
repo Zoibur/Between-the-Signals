@@ -1450,7 +1450,7 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
+    m_Bias: 0.01
     m_NormalBias: 0.4
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
@@ -1503,7 +1503,7 @@ Transform:
   m_GameObject: {fileID: 320990674}
   serializedVersion: 2
   m_LocalRotation: {x: 0.6782686, y: -0, z: -0, w: 0.7348141}
-  m_LocalPosition: {x: -1.94, y: 3.74, z: 0.45}
+  m_LocalPosition: {x: -1.94, y: 3.63, z: 0.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2348,11 +2348,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f05130bf73ecef14397506498a9bd11f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.82
+      value: 3.851
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f05130bf73ecef14397506498a9bd11f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.42
+      value: 0.806
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f05130bf73ecef14397506498a9bd11f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6655,7 +6655,7 @@ Transform:
   m_GameObject: {fileID: 1402030019}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.031000137, z: 0.386}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9183,7 +9183,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 09b2e832eb744614eac9e694a1d0e380, type: 3}
+  m_Texture: {fileID: 2800000, guid: ef8c37bacde53d74fbb486a4984a3e0d, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0

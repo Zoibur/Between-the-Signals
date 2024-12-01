@@ -60,7 +60,7 @@ public class NewsPaper : MonoBehaviour
         string todaysNews = "";
         if (playerSuccess > 0)
         {
-            todaysNews += (playerSuccess * m).ToString() + " Civilians Saved in Attack!\n";
+            todaysNews += (playerSuccess * m).ToString() + " Enemies Civilians Survived in Attack!\n";
         }
         if (playerFails == 0 && playerSuccess == 0)
         {
@@ -68,7 +68,7 @@ public class NewsPaper : MonoBehaviour
         }
         if (playerFails > 0)
         {
-            todaysNews += (playerFails * m).ToString() + " Civilians Dead in Attack!";
+            todaysNews += (playerFails * m).ToString() + " Enemies Civilians Dead in Attack!";
         }
         //int result = playerScore * 500;
         originPos = transform.position;

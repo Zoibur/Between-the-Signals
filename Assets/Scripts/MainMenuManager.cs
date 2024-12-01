@@ -22,6 +22,8 @@ public class MainMenuManager : MonoBehaviour
     void Start()
     {
         PlayerPrefs.SetInt("PlayerScore", 0);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         //PlayerPrefs.SetFloat("MasterVolumePref", 0.5f);
         //PlayerPrefs.SetFloat("SFXVolumePref", 0.5f);
         //PlayerPrefs.SetFloat("MusicVolumePref", 0.5f);

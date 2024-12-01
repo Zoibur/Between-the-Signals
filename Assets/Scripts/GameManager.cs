@@ -107,8 +107,13 @@ public class GameManager : MonoBehaviour
     public IEnumerator LoadScene(int index)
     {
         levelTransition.SetTrigger("Start");
-        Debug.Log("This Round: Success: " + successScore.ToString() + " | Failures: " + failScore.ToString() + " | Final Score: " + (successScore - failScore).ToString());
+        //Debug.Log("This Round: Success: " + successScore.ToString() + " | Failures: " + failScore.ToString() + " | Final Score: " + (successScore - failScore).ToString());
         yield return new WaitForSeconds(transitionTime);
+        if (failScore == 0 && successScore == 0 )
+        {
+            failScore = 2;
+        }
+        Debug.Log("This Round: Success: " + successScore.ToString() + " | Failures: " + failScore.ToString() + " | Final Score: " + (successScore - failScore).ToString());
 
         PlayerPrefs.SetInt("PreviousSuccess", successScore);
         PlayerPrefs.SetInt("PreviousFailures", failScore);
